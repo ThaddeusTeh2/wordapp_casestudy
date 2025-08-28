@@ -2,6 +2,8 @@ package com.dx.wordapp.data.repo
 
 import com.dx.wordapp.data.model.Word
 
+// Main class to get getAll add edit delete Words (imitate database)
+
 class WordsRepo private constructor() {
     val items : MutableMap<Int,Word> = mutableMapOf()
     var counter = 0

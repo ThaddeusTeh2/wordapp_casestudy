@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dx.wordapp.data.model.Word
 import com.dx.wordapp.databinding.LayoutItemWordBinding
-import com.google.android.material.snackbar.Snackbar
+
+// Main class to handle recyclerViews (main page data showing)
 
 class WordsAdapter(
     private var word : List<Word>,

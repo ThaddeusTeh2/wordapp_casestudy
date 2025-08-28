@@ -2,6 +2,7 @@ package com.dx.wordapp.data.model
 
 import java.sql.Date
 
+// Data class for Word (data)
 
 data class Word (
     val id : Int,
