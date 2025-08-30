@@ -16,6 +16,8 @@ class AddWordFragment : BaseManageWordFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.run {
+            // for the toolbar title
+            toolbarTitle.text = getString(R.string.manage_word_title, "Add New")
             mbSubmit.text = getString(R.string.add)
             mbSubmit.setOnClickListener {
                 val title = etTitle.text.toString()
