@@ -3,6 +3,7 @@ package com.dx.wordapp.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.dx.wordapp.R
 import com.dx.wordapp.data.model.Word
 import com.dx.wordapp.databinding.LayoutItemWordBinding
 
@@ -36,7 +37,10 @@ class WordsAdapter(
         fun bind(item:Word){
             binding.run {
                 tvTitle.text = item.title
-                tvDefinition.text = item.definition
+                tvDefinition.text = root.context.getString(
+                    R.string.definition_yo,
+                    item.definition
+                )
 
                 cvWord.setOnClickListener{
                     onClick(item)
