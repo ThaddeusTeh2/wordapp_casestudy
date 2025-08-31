@@ -8,9 +8,13 @@
     tools:context=".ui.manage.BaseManageWordFragment">
 
     <!--  ToolBar (Header)  -->
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar">
+        android:layout_height="@dimen/toolbar"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="?attr/colorOnPrimary">
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="match_parent"
@@ -18,8 +22,9 @@
             android:gravity="center|start"
             android:text="@string/manage_word_title"
             android:textSize="@dimen/tx_xxxl"
-            android:textStyle="bold" />
-    </androidx.appcompat.widget.Toolbar>
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnPrimary"/>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <!--  Edit Text ll block  -->
     <LinearLayout
