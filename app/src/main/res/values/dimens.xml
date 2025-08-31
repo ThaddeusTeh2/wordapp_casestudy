@@ -13,6 +13,7 @@
     <dimen name="xxxxl">32dp</dimen>
 
     <dimen name="toolbar">65dp</dimen>
+    <dimen name="not_found">100dp</dimen>
 
     <dimen name="tx_xxs">8sp</dimen>
     <dimen name="tx_xs">10sp</dimen>
