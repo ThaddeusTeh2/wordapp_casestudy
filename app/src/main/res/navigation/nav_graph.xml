@@ -8,5 +8,27 @@
         android:id="@+id/homeFragment"
         android:name="com.dx.wordapp.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_addWordFragment"
+            app:destination="@id/addWordFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_editWordFragment"
+            app:destination="@id/editWordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addWordFragment"
+        android:name="com.dx.wordapp.ui.manage.AddWordFragment"
+        android:label="Add Word"
+        tools:layout="@layout/fragment_base_manage_word" />
+
+    <fragment
+        android:id="@+id/editWordFragment"
+        android:name="com.dx.wordapp.ui.manage.EditWordFragment"
+        android:label="Edit Word"
+        tools:layout="@layout/fragment_base_manage_word">
+        <argument
+            android:name="wordId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
