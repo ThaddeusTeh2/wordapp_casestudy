@@ -2,16 +2,16 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxHeight="150dp"
+    android:maxHeight="@dimen/xxxxl"
     android:id="@+id/cvWord"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="8dp">
+    android:layout_margin="@dimen/xs">
 
     <LinearLayout
         android:id="@+id/llProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/xs"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tvTitle"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Material3.TitleSmall"
             android:text="@string/definition_yo"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="@dimen/xs"/>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

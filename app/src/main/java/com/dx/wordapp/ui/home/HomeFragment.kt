@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dx.wordapp.databinding.FragmentHomeBinding
 import com.dx.wordapp.ui.adapter.WordsAdapter
@@ -18,6 +20,7 @@ import kotlinx.coroutines.launch
  * Main Production Floor - The central hub for viewing and managing all items
  * This is like the main factory floor where you can see all your production lines
  * and manage the logistics network of items
+ * Now handles toolbar and bottom navigation as well
  */
 class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
@@ -36,6 +39,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         setupProductionLine()
+        setupNavigation()
+        setupToolbar()
         observeLogisticsNetwork()
         
         // Setup the item creation button (like building a new assembly machine)
@@ -51,15 +56,68 @@ class HomeFragment : Fragment() {
     }
 
     /**
+     * Setup the logistics network - connects all the production lines (fragments)
+     * This is like setting up the main bus that carries items between different areas
+     */
+    private fun setupNavigation() {
+        val navHostFragment = requireActivity().supportFragmentManager
+            .findFragmentById(R.id.navHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        
+        // Connect the bottom navigation to the main logistics network
+        binding.navView.setupWithNavController(navController)
+        
+        // Connect the toolbar to the navigation system
+        binding.toolbar.setupWithNavController(navController)
+    }
+
+    /**
+     * Setup the control panel with search and filter operations
+     * Like setting up the logistics network controls for item routing
+     */
+    private fun setupToolbar() {
+        binding.toolbar.inflateMenu(R.menu.toolbar_menu)
+        
+        // Setup the control panel buttons for item management
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_search -> {
+                    // TODO: TEAMMATE - Implement search functionality
+                    // This should open a search interface to filter items in the inventory
+                    // Integration point: Connect to HomeViewModel search methods
+                    true
+                }
+                R.id.action_filter -> {
+                    // TODO: TEAMMATE - Implement filter dialog
+                    // This should show sorting options like logistics network filters
+                    // Integration point: Connect to HomeViewModel filter methods
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    /**
      * Monitor the logistics network for item updates
      * Like watching the main bus for new items being added to the network
      */
     fun observeLogisticsNetwork(){
         lifecycleScope.launch {
-            viewModel.words.collect{
-                adapter.setWords(it)
+            viewModel.words.collect{ words ->
+                adapter.setWords(words)
+                updateEmptyState(words.isEmpty())
             }
         }
+    }
+
+    /**
+     * Update the empty state visibility based on whether items exist
+     * Like showing a "factory closed" sign when no production is happening
+     * @param isEmpty Whether the item list is empty
+     */
+    private fun updateEmptyState(isEmpty: Boolean) {
+        binding.tvEmptyState.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
 
     /**
@@ -90,11 +148,6 @@ class HomeFragment : Fragment() {
     // Integration point: Connect filter dialog to sort items in the logistics network
     // This should sort items by title, date, or other criteria
     // Implementation: Add filter dialog and connect to HomeViewModel sort methods
-    
-    // TODO: TEAMMATE - Add empty state handling
-    // Integration point: Show empty state when no items in logistics network
-    // This should display a message when the production floor is empty
-    // Implementation: Add empty state layout and logic
     
     // TODO: TEAMMATE - Add item detail navigation
     // Integration point: Navigate to item detail view when item is clicked
