@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.dx.wordapp.R
 import com.dx.wordapp.data.repo.WordsRepo
 import com.dx.wordapp.databinding.FragmentDetailWordBinding
 
@@ -38,11 +37,12 @@ class DetailWordFragment: Fragment() {
 
 //            btnDone.setOnClickListener{}
             btnEdit.setOnClickListener {
-                val action = DetailWordFragmentDirections.actionDetailWordFragmentToEditWordFragment(it.id!!)
+                val action = DetailWordFragmentDirections.actionDetailWordFragmentToEditWordFragment(args.wordId)
                 findNavController().navigate(action)
             }
             btnDelete.setOnClickListener {
-                repo.deleteWord(it.id!!)
+                repo.deleteWord(args.wordId)
+                findNavController().popBackStack()
             }
         }
     }
