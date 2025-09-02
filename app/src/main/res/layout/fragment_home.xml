@@ -8,16 +8,38 @@
     tools:context=".ui.home.HomeFragment">
 
     <!-- Toolbar -->
+
+    <!-- Main Content Area -->
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:title="@string/app_name"
-        app:titleTextColor="?attr/colorOnPrimary"
-        app:menu="@menu/toolbar_menu"/>
+        app:titleTextColor="?attr/colorOnPrimary" />
 
-    <!-- Main Content Area -->
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fabSort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/xxl"
+            android:text="@string/sort_by"
+            app:icon="@drawable/ic_sort"/>
+
+    </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
