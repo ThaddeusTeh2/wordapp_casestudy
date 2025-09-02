@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
         
         setupProductionLine()
         setupNavigation()
-        setupToolbar()
+//        setupToolbar()
         observeLogisticsNetwork()
         
         // Setup the item creation button (like building a new assembly machine)
@@ -77,28 +77,28 @@ class HomeFragment : Fragment() {
      * Setup the control panel with search and filter operations
      * Like setting up the logistics network controls for item routing
      */
-    private fun setupToolbar() {
-        binding.toolbar.inflateMenu(R.menu.toolbar_menu)
-
-        // Setup the control panel buttons for item management
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_search -> {
-                    // TODO: TEAMMATE - Implement search functionality
-                    // This should open a search interface to filter items in the inventory
-                    // Integration point: Connect to HomeViewModel search methods
-                    true
-                }
-                R.id.action_filter -> {
-                    // TODO: TEAMMATE - Implement filter dialog
-                    // This should show sorting options like logistics network filters
-                    // Integration point: Connect to HomeViewModel filter methods
-                    true
-                }
-                else -> false
-            }
-        }
-    }
+//    private fun setupToolbar() {
+//        binding.toolbar.inflateMenu(R.menu.toolbar_menu)
+//
+//        // Setup the control panel buttons for item management
+//        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+//            when (menuItem.itemId) {
+//                R.id.action_search -> {
+//                    // TODO: TEAMMATE - Implement search functionality
+//                    // This should open a search interface to filter items in the inventory
+//                    // Integration point: Connect to HomeViewModel search methods
+//                    true
+//                }
+//                R.id.action_filter -> {
+//                    // TODO: TEAMMATE - Implement filter dialog
+//                    // This should show sorting options like logistics network filters
+//                    // Integration point: Connect to HomeViewModel filter methods
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
+//    }
 
     /**
      * Monitor the logistics network for item updates
