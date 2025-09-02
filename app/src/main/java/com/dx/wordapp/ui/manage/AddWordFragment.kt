@@ -1,6 +1,5 @@
 package com.dx.wordapp.ui.manage
 
-import android.annotation.SuppressLint
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.view.View
@@ -16,6 +15,10 @@ class AddWordFragment : BaseManageWordFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.run {
+            // for the toolbar icon back navigation
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
             // for the toolbar title
             toolbarTitle.text = getString(R.string.manage_word_title, "Add New")
             mbSubmit.text = getString(R.string.add)
@@ -27,23 +30,23 @@ class AddWordFragment : BaseManageWordFragment() {
                 viewModel.addWord(title = title,definition = definition, synonym = synonym, details = details)
             }
         }
-        finish()
-        error()
+        observeSignals()
     }
 
-    fun finish(){
+    // function to check any completions or errors (improved to match teammate)
+    private fun observeSignals(){
+        // Monitor when production is complete
         lifecycleScope.launch {
-            viewModel.finish.collect{
-                setFragmentResult("manage_word",Bundle())
+            viewModel.finish.collect {
+                setFragmentResult("manage_word", Bundle())
                 findNavController().popBackStack()
             }
         }
-    }
 
-    fun error(){
+        // Monitor for assembly machine errors
         lifecycleScope.launch {
-            viewModel.error.collect{
-                showError(it)
+            viewModel.error.collect { errorMessage ->
+                showError(errorMessage)
             }
         }
     }

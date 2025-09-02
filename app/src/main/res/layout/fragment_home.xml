@@ -14,7 +14,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:title="@string/app_name"
-        app:titleTextColor="?attr/colorOnPrimary" />
+        app:titleTextColor="?attr/colorOnPrimary"
+        app:menu="@menu/toolbar_menu"/>
 
     <!-- Main Content Area -->
     <FrameLayout
@@ -31,16 +32,27 @@
             android:layout_margin="@dimen/xs"/>
 
         <!-- Empty State - Shows when no words are available -->
-        <TextView
-            android:id="@+id/tvEmptyState"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="No words to show"
-            android:textSize="@dimen/tx_xl"
-            android:textColor="?attr/colorOnSurface"
-            android:visibility="gone"
-            tools:visibility="visible" />
+        <LinearLayout
+            android:id="@+id/llEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+            
+            <ImageView
+                android:layout_width="@dimen/not_found"
+                android:layout_height="@dimen/not_found"
+                android:src="@drawable/ic_doc"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/no_words_to_show"
+                android:textSize="@dimen/tx_xl"
+                android:textColor="?attr/colorOnSurface" />
+
+        </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAdd"

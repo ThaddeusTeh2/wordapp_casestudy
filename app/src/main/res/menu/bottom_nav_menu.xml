@@ -4,11 +4,13 @@
     <!-- Unlearned Words Tab - No icon, text only -->
     <item
         android:id="@+id/navigation_unlearned"
+        android:icon="@drawable/ic_home"
         android:title="@string/unlearned_words" />
     
     <!-- Completed Words Tab - No icon, text only -->
     <item
         android:id="@+id/navigation_completed"
+        android:icon="@drawable/ic_done"
         android:title="@string/completed_words" />
         
 </menu>

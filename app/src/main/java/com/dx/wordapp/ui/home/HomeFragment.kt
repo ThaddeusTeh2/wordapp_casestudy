@@ -40,8 +40,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         setupProductionLine()
-        setupNavigation()
-        setupToolbar()
+//        setupNavigation()
+//        setupToolbar()
         observeLogisticsNetwork()
         
         // Setup the item creation button (like building a new assembly machine)
@@ -60,44 +60,44 @@ class HomeFragment : Fragment() {
      * Setup the logistics network - connects all the production lines (fragments)
      * This is like setting up the main bus that carries items between different areas
      */
-    private fun setupNavigation() {
-        val navHostFragment = requireActivity().supportFragmentManager
-            .findFragmentById(R.id.navHostFragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        
-        // Connect the bottom navigation to the main logistics network
-        binding.navView.setupWithNavController(navController)
-        
-        // Connect the toolbar to the navigation system
-        binding.toolbar.setupWithNavController(navController)
-    }
+//    private fun setupNavigation() {
+//        val navHostFragment = requireActivity().supportFragmentManager
+//            .findFragmentById(R.id.navHostFragment) as NavHostFragment
+//        val navController = navHostFragment.navController
+//
+//        // Connect the bottom navigation to the main logistics network
+//        binding.navView.setupWithNavController(navController)
+//
+//        // Connect the toolbar to the navigation system
+//        binding.toolbar.setupWithNavController(navController)
+//    }
 
     /**
      * Setup the control panel with search and filter operations
      * Like setting up the logistics network controls for item routing
      */
-    private fun setupToolbar() {
-        binding.toolbar.inflateMenu(R.menu.toolbar_menu)
-        
-        // Setup the control panel buttons for item management
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_search -> {
-                    // TODO: TEAMMATE - Implement search functionality
-                    // This should open a search interface to filter items in the inventory
-                    // Integration point: Connect to HomeViewModel search methods
-                    true
-                }
-                R.id.action_filter -> {
-                    // TODO: TEAMMATE - Implement filter dialog
-                    // This should show sorting options like logistics network filters
-                    // Integration point: Connect to HomeViewModel filter methods
-                    true
-                }
-                else -> false
-            }
-        }
-    }
+//    private fun setupToolbar() {
+//        binding.toolbar.inflateMenu(R.menu.toolbar_menu)
+//
+//        // Setup the control panel buttons for item management
+//        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+//            when (menuItem.itemId) {
+//                R.id.action_search -> {
+//                    // TODO: TEAMMATE - Implement search functionality
+//                    // This should open a search interface to filter items in the inventory
+//                    // Integration point: Connect to HomeViewModel search methods
+//                    true
+//                }
+//                R.id.action_filter -> {
+//                    // TODO: TEAMMATE - Implement filter dialog
+//                    // This should show sorting options like logistics network filters
+//                    // Integration point: Connect to HomeViewModel filter methods
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
+//    }
 
     /**
      * Monitor the logistics network for item updates
@@ -118,7 +118,7 @@ class HomeFragment : Fragment() {
      * @param isEmpty Whether the item list is empty
      */
     private fun updateEmptyState(isEmpty: Boolean) {
-        binding.tvEmptyState.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        binding.llEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
 
     /**

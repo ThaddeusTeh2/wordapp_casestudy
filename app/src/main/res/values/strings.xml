@@ -34,4 +34,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="cancel">Cancel</string>
+    <string name="no_words_to_show">No words to show</string>
 </resources>

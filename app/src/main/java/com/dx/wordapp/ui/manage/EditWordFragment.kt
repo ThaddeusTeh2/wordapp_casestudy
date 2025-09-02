@@ -35,6 +35,10 @@ class EditWordFragment : BaseManageWordFragment() {
      */
     private fun setupAssemblyInterface() {
         binding.run {
+            // Set the toolbar icon back navigation
+            toolbar.setNavigationOnClickListener {
+                findNavController().popBackStack()
+            }
             // Set the assembly machine name for modification mode
             toolbarTitle.text = getString(R.string.manage_word_title, "Modify")
             
@@ -64,7 +68,7 @@ class EditWordFragment : BaseManageWordFragment() {
                 word?.let { loadItemIntoAssemblyMachine(it) }
             }
         }
-        
+
         // Monitor when production is complete
         lifecycleScope.launch {
             viewModel.finish.collect {
