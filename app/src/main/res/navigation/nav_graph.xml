@@ -13,8 +13,8 @@
             android:id="@+id/action_homeFragment_to_addWordFragment"
             app:destination="@id/addWordFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_editWordFragment"
-            app:destination="@id/editWordFragment" />
+            android:id="@+id/action_homeFragment_to_detailWordFragment"
+            app:destination="@id/detailWordFragment" />
     </fragment>
     <fragment
         android:id="@+id/addWordFragment"
@@ -30,5 +30,16 @@
         <argument
             android:name="wordId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailWordFragment"
+        android:name="com.dx.wordapp.ui.manage.DetailWordFragment"
+        android:label="DetailWordFragment" >
+        <argument
+            android:name="wordId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_detailWordFragment_to_editWordFragment"
+            app:destination="@id/editWordFragment" />
     </fragment>
 </navigation>
