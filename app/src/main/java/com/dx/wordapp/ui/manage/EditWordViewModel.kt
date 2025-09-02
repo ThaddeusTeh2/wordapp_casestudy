@@ -57,37 +57,97 @@ class EditWordViewModel(
      */
     fun updateWord(title: String, definition: String, synonym: String, details: String) {
         try {
-            // Validate input materials (like checking if you have the required ingredients)
-            require(title.isNotBlank()) { "Item name cannot be empty" }
-            require(definition.isNotBlank()) { "Item description cannot be empty" }
-            
-            // Get the current item from the assembly machine
-            val currentWord = _word.value
-            if (currentWord != null) {
-                // Create the upgraded item with new properties
-                val updatedWord = currentWord.copy(
-                    title = title,
-                    definition = definition,
-                    synonym = synonym,
-                    details = details
-                )
-                
-                // Send the upgraded item back to the logistics network
-                repo.updateWord(updatedWord)
-                
-                // Signal that production is complete
-                viewModelScope.launch {
-                    _finish.emit(Unit)
-                }
-            } else {
-                viewModelScope.launch {
-                    _error.emit("No item loaded in assembly machine")
-                }
-            }
+            validateInputMaterials(title, definition)
+            processItemModification(title, definition, synonym, details)
         } catch (e: Exception) {
-            viewModelScope.launch {
-                _error.emit(e.message ?: "Assembly machine malfunction")
-            }
+            handleAssemblyError(e)
+        }
+    }
+    
+    /**
+     * Validate input materials (like checking if you have the required ingredients)
+     * @param title Item name to validate
+     * @param definition Item description to validate
+     */
+    private fun validateInputMaterials(title: String, definition: String) {
+        require(title.isNotBlank()) { "Item name cannot be empty" }
+        require(definition.isNotBlank()) { "Item description cannot be empty" }
+    }
+    
+    /**
+     * Process the actual item modification in the assembly machine
+     * @param title New item name
+     * @param definition New item description
+     * @param synonym New item category
+     * @param details New item specifications
+     */
+    private fun processItemModification(title: String, definition: String, synonym: String, details: String) {
+        val currentWord = _word.value
+        if (currentWord != null) {
+            val updatedWord = createUpgradedItem(currentWord, title, definition, synonym, details)
+            sendItemToLogisticsNetwork(updatedWord)
+            signalProductionComplete()
+        } else {
+            signalAssemblyError("No item loaded in assembly machine")
+        }
+    }
+    
+    /**
+     * Create the upgraded item with new properties
+     * @param currentWord The current item to upgrade
+     * @param title New item name
+     * @param definition New item description
+     * @param synonym New item category
+     * @param details New item specifications
+     * @return The upgraded item
+     */
+    private fun createUpgradedItem(
+        currentWord: Word,
+        title: String,
+        definition: String,
+        synonym: String,
+        details: String
+    ): Word {
+        return currentWord.copy(
+            title = title,
+            definition = definition,
+            synonym = synonym,
+            details = details
+        )
+    }
+    
+    /**
+     * Send the upgraded item back to the logistics network
+     * @param updatedWord The upgraded item to store
+     */
+    private fun sendItemToLogisticsNetwork(updatedWord: Word) {
+        repo.updateWord(updatedWord)
+    }
+    
+    /**
+     * Signal that production is complete
+     */
+    private fun signalProductionComplete() {
+        viewModelScope.launch {
+            _finish.emit(Unit)
+        }
+    }
+    
+    /**
+     * Handle assembly machine errors
+     * @param exception The exception that occurred
+     */
+    private fun handleAssemblyError(exception: Exception) {
+        signalAssemblyError(exception.message ?: "Assembly machine malfunction")
+    }
+    
+    /**
+     * Signal an assembly machine error
+     * @param errorMessage The error message to emit
+     */
+    private fun signalAssemblyError(errorMessage: String) {
+        viewModelScope.launch {
+            _error.emit(errorMessage)
         }
     }
 }
