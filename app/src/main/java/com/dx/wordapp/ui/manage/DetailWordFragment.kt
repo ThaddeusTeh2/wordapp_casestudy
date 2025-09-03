@@ -1,14 +1,23 @@
 package com.dx.wordapp.ui.manage
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.dx.wordapp.R
 import com.dx.wordapp.data.repo.WordsRepo
 import com.dx.wordapp.databinding.FragmentDetailWordBinding
+import androidx.core.graphics.drawable.toDrawable
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
+import com.dx.wordapp.databinding.DialogConfirmationBinding
 
 
 class DetailWordFragment: Fragment() {
@@ -41,11 +50,30 @@ class DetailWordFragment: Fragment() {
                 findNavController().navigate(action)
             }
             btnDelete.setOnClickListener {
-                repo.deleteWord(args.wordId)
-                findNavController().popBackStack()
+                showDeleteDialogBox(args.wordId)
             }
         }
     }
 
+    //    Dialog popup
+    fun showDeleteDialogBox(wordId: Int) {
+        val dialog = Dialog(requireContext())
+        val dialogBinding = DialogConfirmationBinding
+            .inflate(layoutInflater, null, false)
+        dialog.setContentView(dialogBinding.root)
+        dialogBinding.root.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
 
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnConfirm.setOnClickListener {
+            repo.deleteWord(wordId)
+            dialog.dismiss()
+            setFragmentResult("manage_product",Bundle())
+            findNavController().popBackStack()
+        }
+
+        dialog.show()
+    }
 }
