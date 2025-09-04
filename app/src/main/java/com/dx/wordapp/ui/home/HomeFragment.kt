@@ -39,9 +39,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupProductionLine()
+        initializeRecyclerView()
         setupNavigation()
-        observeLogisticsNetwork()
+        observeWords()
 
         // Standard: Navigate to Add screen when FAB is clicked.
         // Factory analogy: Create a new assembly when pressing the add control.
@@ -74,7 +74,7 @@ class HomeFragment : Fragment() {
      * Standard: Observe words and update list and empty state.
      * Factory analogy: Watch the belt and toggle the "no production" sign.
      */
-    fun observeLogisticsNetwork(){
+    fun observeWords(){
         lifecycleScope.launch {
             viewModel.words.collect{ words ->
                 adapter.setWords(words)
@@ -95,7 +95,7 @@ class HomeFragment : Fragment() {
      * Standard: Initialize RecyclerView and item click navigation to Edit.
      * Factory analogy: Set up the conveyor and route items to the upgrade station.
      */
-    fun setupProductionLine(){
+    fun initializeRecyclerView(){
         adapter = WordsAdapter(emptyList()){
             val action = HomeFragmentDirections.actionHomeFragmentToEditWordFragment(it.id!!)
             findNavController().navigate(action)

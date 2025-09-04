@@ -25,18 +25,18 @@ class EditWordFragment : BaseManageWordFragment() {
         // Factory analogy: Fetch the item from storage onto the machine.
         viewModel.loadWord(args.wordId)
 
-        setupAssemblyInterface()
-        observeProductionSignals()
+        setupUI()
+        observeViewModel()
     }
 
     /**
      * Standard: Configure toolbar, button labels and submit handler.
      * Factory analogy: Set the machine controls and start the upgrade.
      */
-    private fun setupAssemblyInterface() {
+    private fun setupUI() {
         binding.run {
             setupBackNavigation()
-            setModifyTitle()
+            setEditTitle()
             setupSubmitHandler()
         }
     }
@@ -55,7 +55,7 @@ class EditWordFragment : BaseManageWordFragment() {
      * Standard: Indicate this is edit mode.
      * Factory analogy: Machine set to upgrade mode.
      */
-    private fun setModifyTitle() {
+    private fun setEditTitle() {
         binding.toolbarTitle.text = getString(R.string.manage_word_title, "Modify")
     }
 
@@ -78,9 +78,9 @@ class EditWordFragment : BaseManageWordFragment() {
      * Standard: Observe word load, completion, and error events.
      * Factory analogy: Watch the station signals for success or faults.
      */
-    private fun observeProductionSignals() {
+    private fun observeViewModel() {
         observeWordState()
-        observeFinishSignal()
+        observeCompletion()
         observeErrors()
     }
 
@@ -91,7 +91,7 @@ class EditWordFragment : BaseManageWordFragment() {
     private fun observeWordState() {
         lifecycleScope.launch {
             viewModel.word.collect { word ->
-                word?.let { loadItemIntoAssemblyMachine(it) }
+                word?.let { populateForm(it) }
             }
         }
     }
@@ -100,7 +100,7 @@ class EditWordFragment : BaseManageWordFragment() {
      * Standard: Observe completion and navigate back.
      * Factory analogy: Green light and send item to the next step.
      */
-    private fun observeFinishSignal() {
+    private fun observeCompletion() {
         lifecycleScope.launch {
             viewModel.finish.collect {
                 setFragmentResult("manage_word", Bundle())
@@ -125,7 +125,7 @@ class EditWordFragment : BaseManageWordFragment() {
      * Standard: Fill the form with the selected word's values.
      * Factory analogy: Place the item on the machine for processing.
      */
-    private fun loadItemIntoAssemblyMachine(word: com.dx.wordapp.data.model.Word) {
+    private fun populateForm(word: com.dx.wordapp.data.model.Word) {
         binding.run {
             etTitle.setText(word.title)
             etDefinition.setText(word.definition)
