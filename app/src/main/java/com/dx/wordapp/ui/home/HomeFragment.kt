@@ -97,7 +97,7 @@ class HomeFragment : Fragment() {
      */
     fun initializeRecyclerView(){
         adapter = WordsAdapter(emptyList()){
-            val action = HomeFragmentDirections.actionHomeFragmentToEditWordFragment(it.id!!)
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailWordFragment(it.id!!)
             findNavController().navigate(action)
 
             setFragmentResultListener("manage_product"){_,_ ->
