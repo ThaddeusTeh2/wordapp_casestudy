@@ -8,24 +8,48 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
-class AddWordViewModel (
+/**
+ * Standard: ViewModel for adding new words. Handles validation and persistence.
+ * Factory analogy: Controller for an assembly station creating new items.
+ */
+class AddWordViewModel(
     private val repo: WordsRepo = WordsRepo.getInstance()
 ) : ViewModel() {
+    
+    // Standard: Emits when word creation completes successfully.
+    // Factory analogy: Green light when production finishes.
     private val _finish = MutableSharedFlow<Unit>()
-    val finish : SharedFlow<Unit> = _finish
+    val finish: SharedFlow<Unit> = _finish
 
+    // Standard: Emits errors to be shown in the UI.
+    // Factory analogy: Fault signal from the station.
     private val _error = MutableSharedFlow<String>()
     val error: SharedFlow<String> = _error
 
-    fun addWord(title:String,definition:String,synonym:String,details:String){
+    /**
+     * Standard: Validate inputs and create a new word in the repository.
+     * Factory analogy: Check materials and run the creation recipe.
+     */
+    fun addWord(title: String, definition: String, synonym: String, details: String) {
         try {
-            require(title.isNotBlank()) {"Title cannot be blank"}
-            require(definition.isNotBlank()) {"Definition cannot be blank"}
-            val word = Word(title = title, definition = definition, synonym = synonym, details = details)
+            require(title.isNotBlank()) { "Title cannot be blank" }
+            require(definition.isNotBlank()) { "Definition cannot be blank" }
+            
+            val word = Word(
+                title = title, 
+                definition = definition, 
+                synonym = synonym, 
+                details = details
+            )
             repo.addWord(word)
-            viewModelScope.launch { _finish.emit(Unit)}
-        }catch (e:Exception){
-            viewModelScope.launch { _error.emit(e.message.toString()) }
+            
+            viewModelScope.launch { 
+                _finish.emit(Unit)
+            }
+        } catch (e: Exception) {
+            viewModelScope.launch { 
+                _error.emit(e.message.toString()) 
+            }
         }
     }
 }

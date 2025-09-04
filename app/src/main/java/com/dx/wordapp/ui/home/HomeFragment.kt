@@ -18,10 +18,10 @@ import com.dx.wordapp.ui.adapter.WordsAdapter
 import kotlinx.coroutines.launch
 
 /**
- * Main Production Floor - The central hub for viewing and managing all items
- * This is like the main factory floor where you can see all your production lines
- * and manage the logistics network of items
- * Now handles toolbar and bottom navigation as well
+ * Standard: Home screen that hosts the toolbar, bottom navigation and the list of words.
+ * Handles list setup, navigation, and reacting to updates from add/edit screens.
+ *
+ * Factory analogy: Main production floor managing the conveyor (list) and control panels.
  */
 class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
@@ -38,73 +38,43 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        setupProductionLine()
+
+        initializeRecyclerView()
         setupNavigation()
-//        setupToolbar()
-        observeLogisticsNetwork()
-        
-        // Setup the item creation button (like building a new assembly machine)
-        binding.toolbar.title = getString(R.string.app_name)
+        observeWords()
+
+        // Standard: Navigate to Add screen when FAB is clicked.
+        // Factory analogy: Create a new assembly when pressing the add control.
         binding.fabAdd.setOnClickListener{
             val action = HomeFragmentDirections.actionHomeFragmentToAddWordFragment()
             findNavController().navigate(action)
         }
-        
-        // Listen for production updates from other assembly machines
+
+        // Standard: Refresh list when add/edit finishes in child fragments.
+        // Factory analogy: Update conveyor when another station finishes processing.
         setFragmentResultListener("manage_word"){_,_ ->
             viewModel.getWords()
         }
     }
 
     /**
-     * Setup the logistics network - connects all the production lines (fragments)
-     * This is like setting up the main bus that carries items between different areas
+     * Standard: Wire toolbar and bottom navigation to the activity nav controller.
+     * Factory analogy: Connect control panels to the main logistics network.
      */
     private fun setupNavigation() {
         val navHostFragment = requireActivity().supportFragmentManager
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Connect the bottom navigation to the main logistics network
         binding.navView.setupWithNavController(navController)
-
-        // Connect the toolbar to the navigation system
         binding.toolbar.setupWithNavController(navController)
     }
 
     /**
-     * Setup the control panel with search and filter operations
-     * Like setting up the logistics network controls for item routing
+     * Standard: Observe words and update list and empty state.
+     * Factory analogy: Watch the belt and toggle the "no production" sign.
      */
-//    private fun setupToolbar() {
-//        binding.toolbar.inflateMenu(R.menu.toolbar_menu)
-//
-//        // Setup the control panel buttons for item management
-//        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-//            when (menuItem.itemId) {
-//                R.id.action_search -> {
-//                    // TODO: TEAMMATE - Implement search functionality
-//                    // This should open a search interface to filter items in the inventory
-//                    // Integration point: Connect to HomeViewModel search methods
-//                    true
-//                }
-//                R.id.action_filter -> {
-//                    // TODO: TEAMMATE - Implement filter dialog
-//                    // This should show sorting options like logistics network filters
-//                    // Integration point: Connect to HomeViewModel filter methods
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
-//    }
-
-    /**
-     * Monitor the logistics network for item updates
-     * Like watching the main bus for new items being added to the network
-     */
-    fun observeLogisticsNetwork(){
+    fun observeWords(){
         lifecycleScope.launch {
             viewModel.words.collect{ words ->
                 adapter.setWords(words)
@@ -114,25 +84,22 @@ class HomeFragment : Fragment() {
     }
 
     /**
-     * Update the empty state visibility based on whether items exist
-     * Like showing a "factory closed" sign when no production is happening
-     * @param isEmpty Whether the item list is empty
+     * Standard: Show or hide empty-state container.
+     * Factory analogy: Show the "factory closed" sign when nothing is produced.
      */
     private fun updateEmptyState(isEmpty: Boolean) {
         binding.llEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
     }
 
     /**
-     * Setup the production line conveyor belt (RecyclerView)
-     * Like setting up a conveyor belt to display items from the logistics network
+     * Standard: Initialize RecyclerView and item click navigation to Edit.
+     * Factory analogy: Set up the conveyor and route items to the upgrade station.
      */
-    fun setupProductionLine(){
+    fun initializeRecyclerView(){
         adapter = WordsAdapter(emptyList()){
-            // Navigate to the item modification assembly machine
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailWordFragment(it.id!!)
+            val action = HomeFragmentDirections.actionHomeFragmentToEditWordFragment(it.id!!)
             findNavController().navigate(action)
 
-            // Listen for updates from the modification assembly machine
             setFragmentResultListener("manage_product"){_,_ ->
                 viewModel.getWords()
             }
@@ -140,24 +107,16 @@ class HomeFragment : Fragment() {
         binding.rvWords.layoutManager = LinearLayoutManager(requireContext())
         binding.rvWords.adapter = adapter
     }
-    
-    // TODO: TEAMMATE - Add search functionality integration
-    // Integration point: Connect search bar to filter items in the logistics network
-    // This should filter the displayed items based on search query
-    // Implementation: Add search bar in toolbar and connect to HomeViewModel search methods
-    
-    // TODO: TEAMMATE - Add filter/sort functionality integration  
-    // Integration point: Connect filter dialog to sort items in the logistics network
-    // This should sort items by title, date, or other criteria
-    // Implementation: Add filter dialog and connect to HomeViewModel sort methods
-    
-    // TODO: TEAMMATE - Add item detail navigation
-    // Integration point: Navigate to item detail view when item is clicked
-    // This should show detailed information about the selected item
-    // Implementation: Add navigation to WordDetailFragment
-    
-    // TODO: TEAMMATE - Add tab navigation for completed/unlearned items
-    // Integration point: Switch between different item categories
-    // This should filter items based on completion status
-    // Implementation: Add bottom navigation integration with CompletedWordsFragment
+
+    // Standard: TODO integrate search with ViewModel (query string -> filtered list).
+    // Factory analogy: Install a filter station on the belt.
+
+    // Standard: TODO integrate sort/filter dialog with ViewModel (title/date, asc/desc).
+    // Factory analogy: Configure splitter priorities on the belt.
+
+    // Standard: TODO navigate to detail screen on item click when implemented.
+    // Factory analogy: Inspect item at a dedicated inspection station.
+
+    // Standard: TODO hook bottom navigation to filter completed vs unlearned when implemented.
+    // Factory analogy: Switch lanes between completed and in-progress items.
 }

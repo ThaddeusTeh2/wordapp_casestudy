@@ -14,12 +14,14 @@ import com.dx.wordapp.databinding.FragmentBaseManageWordBinding
 import com.google.android.material.snackbar.Snackbar
 
 /**
- * Base Assembly Machine - The foundation for all item production and modification
- * This is like the basic assembly machine that can be configured for different recipes
- * All other assembly machines (AddWord, EditWord) extend this base machine
+ * Standard: Base fragment for shared manage-word UI (form fields, toolbar, submit button).
+ * Provides helpers (e.g., error display) and shared binding setup.
+ *
+ * Factory analogy: Base assembly machine that other stations (add/edit) extend.
  */
 open class BaseManageWordFragment : Fragment() {
-    // Access to the logistics network for item storage and retrieval
+    // Standard: Shared repository instance.
+    // Factory analogy: Shared logistics network access.
     protected val repo = WordsRepo.getInstance()
     protected lateinit var binding: FragmentBaseManageWordBinding
 
@@ -27,27 +29,25 @@ open class BaseManageWordFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the assembly machine interface layout
+        // Standard: Inflate shared layout with form fields.
+        // Factory analogy: Prepare the base assembly machine panel.
         binding = FragmentBaseManageWordBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     /**
-     * Display error messages when the assembly machine malfunctions
-     * Like showing error signals when production fails
-     * @param msg The error message to display
+     * Standard: Show a prominent error via Snackbar.
+     * Factory analogy: Flash a warning light on the machine.
      */
     fun showError(msg:String){
         val snackbar = Snackbar.make(binding.root,msg, Snackbar.LENGTH_LONG)
         snackbar.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.red))
         snackbar.show()
     }
-    
-    // TODO: TEAMMATE - Add validation methods for input fields
-    // Integration point: Add methods to validate assembly machine inputs
-    // This should check if all required materials are present before production
-    
-    // TODO: TEAMMATE - Add methods for handling different production modes
-    // Integration point: Add methods for different assembly machine configurations
-    // This should handle different production recipes (add vs edit modes)
+
+    // Standard: TODO add input validation helpers (non-empty fields, length checks).
+    // Factory analogy: Verify required ingredients before starting the recipe.
+
+    // Standard: TODO add configuration helpers for add/edit modes if needed.
+    // Factory analogy: Switch the machine recipe between add vs upgrade.
 }

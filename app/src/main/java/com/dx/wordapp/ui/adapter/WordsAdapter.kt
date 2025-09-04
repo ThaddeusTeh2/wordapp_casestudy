@@ -8,9 +8,8 @@ import com.dx.wordapp.data.model.Word
 import com.dx.wordapp.databinding.LayoutItemWordBinding
 
 /**
- * Conveyor Belt Controller - Manages the display of items on the production line
- * This is like a smart conveyor belt that shows items from the logistics network
- * Each item is displayed as a card on the production floor
+ * Standard: RecyclerView adapter that binds Word items to list cards.
+ * Factory analogy: Conveyor controller that presents items on the line.
  */
 class WordsAdapter(
     private var word : List<Word>,
@@ -25,9 +24,8 @@ class WordsAdapter(
     override fun getItemCount() = word.size
 
     /**
-     * Update the items on the conveyor belt
-     * Like replacing items on a conveyor belt with new ones
-     * @param items The new items to display on the production line
+     * Standard: Replace the current list and refresh the UI.
+     * Factory analogy: Swap the items on the belt with a new batch.
      */
     fun setWords(items:List<Word>){
         this.word = items
@@ -40,16 +38,15 @@ class WordsAdapter(
     }
 
     /**
-     * Item Display Unit - Each item card on the production line
-     * Like a display panel that shows information about an item on the conveyor belt
+     * Standard: Holds references to the item views and binds a Word.
+     * Factory analogy: Display panel for each item moving on the belt.
      */
     inner class WordViewHolder(
         private val binding : LayoutItemWordBinding
     ):RecyclerView.ViewHolder(binding.root){
         /**
-         * Display item information on the card
-         * Like showing item details on a display panel
-         * @param item The item to display information for
+         * Standard: Populate the card views and wire click listener.
+         * Factory analogy: Show item info and route to the next station when pressed.
          */
         fun bind(item:Word){
             binding.run {
@@ -59,7 +56,6 @@ class WordsAdapter(
                     item.definition
                 )
 
-                // Setup click handler for item selection
                 cvWord.setOnClickListener{
                     onClick(item)
                 }

@@ -11,9 +11,8 @@ import com.dx.wordapp.R
 import kotlinx.coroutines.launch
 
 /**
- * Assembly Machine Interface for item modification
- * This is the control panel for the assembly machine that upgrades existing items
- * Extends the base assembly machine to reuse the production line layout
+ * Standard: Screen for editing an existing word. Pre-fills the form and saves updates.
+ * Factory analogy: Upgrade station that modifies an existing item on the line.
  */
 class EditWordFragment : BaseManageWordFragment() {
     private val viewModel: EditWordViewModel by viewModels()
@@ -21,76 +20,112 @@ class EditWordFragment : BaseManageWordFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        // Load the item to be modified using the logistics network ID
+
+        // Standard: Load the word by id and populate the form.
+        // Factory analogy: Fetch the item from storage onto the machine.
         viewModel.loadWord(args.wordId)
-        
-        setupAssemblyInterface()
-        observeProductionSignals()
+
+        setupUI()
+        observeViewModel()
     }
-    
+
     /**
-     * Configure the assembly machine control panel
-     * Like setting up the interface for an assembly machine
+     * Standard: Configure toolbar, button labels and submit handler.
+     * Factory analogy: Set the machine controls and start the upgrade.
      */
-    private fun setupAssemblyInterface() {
+    private fun setupUI() {
         binding.run {
-            // Set the toolbar icon back navigation
-            toolbar.setNavigationOnClickListener {
-                findNavController().popBackStack()
-            }
-            // Set the assembly machine name for modification mode
-            toolbarTitle.text = getString(R.string.manage_word_title, "Modify")
-            
-            // Set the production button text for upgrading items
-            mbSubmit.text = getString(R.string.update)
-            
-            // Setup the production button to start the modification process
-            mbSubmit.setOnClickListener {
-                val title = etTitle.text.toString()
-                val definition = etDefinition.text.toString()
-                val synonym = etSynonym.text.toString()
-                val details = etDetails.text.toString()
-                
-                viewModel.updateWord(title, definition, synonym, details)
-            }
+            setupBackNavigation()
+            setEditTitle()
+            setupSubmitHandler()
         }
     }
-    
+
     /**
-     * Monitor the assembly machine status signals
-     * Like watching the production line for completion or errors
+     * Standard: Configure toolbar back navigation.
+     * Factory analogy: Exit the station.
      */
-    private fun observeProductionSignals() {
-        // Monitor the current item in the assembly machine
+    private fun setupBackNavigation() {
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    /**
+     * Standard: Indicate this is edit mode.
+     * Factory analogy: Machine set to upgrade mode.
+     */
+    private fun setEditTitle() {
+        binding.toolbarTitle.text = getString(R.string.manage_word_title, "Modify")
+    }
+
+    /**
+     * Standard: Gather inputs and request ViewModel to save.
+     * Factory analogy: Feed materials and run the recipe.
+     */
+    private fun setupSubmitHandler() {
+        binding.mbSubmit.text = getString(R.string.update)
+        binding.mbSubmit.setOnClickListener {
+            val title = binding.etTitle.text.toString()
+            val definition = binding.etDefinition.text.toString()
+            val synonym = binding.etSynonym.text.toString()
+            val details = binding.etDetails.text.toString()
+            viewModel.updateWord(title, definition, synonym, details)
+        }
+    }
+
+    /**
+     * Standard: Observe word load, completion, and error events.
+     * Factory analogy: Watch the station signals for success or faults.
+     */
+    private fun observeViewModel() {
+        observeWordState()
+        observeCompletion()
+        observeErrors()
+    }
+
+    /**
+     * Standard: Observe the current word and populate the form.
+     * Factory analogy: Place the item on the machine for processing.
+     */
+    private fun observeWordState() {
         lifecycleScope.launch {
             viewModel.word.collect { word ->
-                word?.let { loadItemIntoAssemblyMachine(it) }
+                word?.let { populateForm(it) }
             }
         }
+    }
 
-        // Monitor when production is complete
+    /**
+     * Standard: Observe completion and navigate back.
+     * Factory analogy: Green light and send item to the next step.
+     */
+    private fun observeCompletion() {
         lifecycleScope.launch {
             viewModel.finish.collect {
                 setFragmentResult("manage_word", Bundle())
                 findNavController().popBackStack()
             }
         }
-        
-        // Monitor for assembly machine errors
+    }
+
+    /**
+     * Standard: Observe errors and show message.
+     * Factory analogy: Fault indicator with reason.
+     */
+    private fun observeErrors() {
         lifecycleScope.launch {
             viewModel.error.collect { errorMessage ->
                 showError(errorMessage)
             }
         }
     }
-    
+
     /**
-     * Load item data into the assembly machine interface
-     * Like placing an item into an assembly machine for modification
-     * @param word The item to load into the assembly machine
+     * Standard: Fill the form with the selected word's values.
+     * Factory analogy: Place the item on the machine for processing.
      */
-    private fun loadItemIntoAssemblyMachine(word: com.dx.wordapp.data.model.Word) {
+    private fun populateForm(word: com.dx.wordapp.data.model.Word) {
         binding.run {
             etTitle.setText(word.title)
             etDefinition.setText(word.definition)
