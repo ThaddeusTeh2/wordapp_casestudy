@@ -42,4 +42,15 @@
             android:id="@+id/action_detailWordFragment_to_editWordFragment"
             app:destination="@id/editWordFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/completedFragment"
+        android:name="com.dx.wordapp.ui.home.CompletedFragment"
+        android:label="CompletedFragment" >
+        <action
+            android:id="@+id/action_completedFragment_to_detailWordFragment"
+            app:destination="@id/detailWordFragment" />
+        <action
+            android:id="@+id/action_completedFragment_to_addWordFragment"
+            app:destination="@id/addWordFragment" />
+    </fragment>
 </navigation>
