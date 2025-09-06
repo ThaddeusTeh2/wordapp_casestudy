@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.dx.wordapp.R
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dx.wordapp.databinding.FragmentBaseHomeBinding
 import com.dx.wordapp.databinding.FragmentHomeBinding
 import com.dx.wordapp.ui.adapter.WordsAdapter
 import kotlinx.coroutines.launch
@@ -25,14 +26,14 @@ import kotlinx.coroutines.launch
  */
 class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentBaseHomeBinding
     private lateinit var adapter: WordsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater,container,false)
+        binding = FragmentBaseHomeBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -76,6 +77,7 @@ class HomeFragment : Fragment() {
      */
     fun observeWords(){
         lifecycleScope.launch {
+            binding.toolbar.title = getString(R.string.app_name)
             viewModel.words.collect{ words ->
                 adapter.setWords(words)
                 updateEmptyState(words.isEmpty())
