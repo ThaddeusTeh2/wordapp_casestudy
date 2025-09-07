@@ -8,24 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import com.dx.wordapp.R
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dx.wordapp.R
 import com.dx.wordapp.databinding.FragmentBaseHomeBinding
-import com.dx.wordapp.databinding.FragmentHomeBinding
 import com.dx.wordapp.ui.adapter.WordsAdapter
 import kotlinx.coroutines.launch
 
-/**
- * Standard: Home screen that hosts the toolbar, bottom navigation and the list of words.
- * Handles list setup, navigation, and reacting to updates from add/edit screens.
- *
- * Factory analogy: Main production floor managing the conveyor (list) and control panels.
- */
-class HomeFragment : Fragment() {
-    private val viewModel: HomeViewModel by viewModels()
+class CompletedFragment : Fragment() {
+    private val viewModel: CompletedViewModel by viewModels()
     private lateinit var binding: FragmentBaseHomeBinding
     private lateinit var adapter: WordsAdapter
 
@@ -109,16 +102,4 @@ class HomeFragment : Fragment() {
         binding.rvWords.layoutManager = LinearLayoutManager(requireContext())
         binding.rvWords.adapter = adapter
     }
-
-    // Standard: TODO integrate search with ViewModel (query string -> filtered list).
-    // Factory analogy: Install a filter station on the belt.
-
-    // Standard: TODO integrate sort/filter dialog with ViewModel (title/date, asc/desc).
-    // Factory analogy: Configure splitter priorities on the belt.
-
-    // Standard: TODO navigate to detail screen on item click when implemented.
-    // Factory analogy: Inspect item at a dedicated inspection station.
-
-    // Standard: TODO hook bottom navigation to filter completed vs unlearned when implemented.
-    // Factory analogy: Switch lanes between completed and in-progress items.
 }
