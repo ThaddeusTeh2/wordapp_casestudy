@@ -1,7 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Wordapp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+    <!-- Base application theme -->
+    <style name="Theme.Wordapp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">#2C365A</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- Secondary brand color -->
+        <item name="colorSecondary">#C4BCB0</item>
+        <item name="colorOnSecondary">#2C365A</item>
+
+        <!-- Tertiary brand color -->
+        <item name="colorTertiary">#EEE8DF</item>
+        <item name="colorOnTertiary">#2C365A</item>
+
+        <!-- Background & Surface -->
+        <item name="android:colorBackground">#EEE8DF</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#2C365A</item>
+
+        <!-- Error colors -->
+        <item name="colorError">#B00020</item>
+        <item name="colorOnError">#FFFFFF</item>
     </style>
+
 </resources>

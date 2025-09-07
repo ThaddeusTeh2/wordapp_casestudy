@@ -26,27 +26,32 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDone"
-            app:icon="@drawable/ic_done"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_marginEnd="@dimen/tx_xxs"
-            android:text="@string/text_done"/>
+            app:icon="@drawable/ic_done"
+            app:iconGravity="textStart"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEdit"
-            app:icon="@drawable/ic_edit"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
             android:layout_marginEnd="@dimen/tx_xxs"
-            android:text="@string/text_update"/>
+            app:icon="@drawable/ic_edit"
+            app:iconGravity="textStart"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDelete"
-            app:icon="@drawable/ic_delete"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            app:iconGravity="textStart"
-            android:text="@string/text_delete"/>
+            android:layout_weight="1"
+            app:icon="@drawable/ic_delete"
+            app:iconGravity="textStart"/>
     </LinearLayout>
 
     <ScrollView
@@ -56,25 +61,34 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/tx_s">
 
             <TextView android:id="@+id/tvTitle"
                 android:textColor="@color/black"
                 android:textSize="@dimen/tx_xxl"
                 android:textStyle="bold"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_s"/>
 
             <TextView android:id="@+id/tvDefinition"
                 android:textColor="@color/black"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_s"/>
 
             <TextView android:id="@+id/tvSynonym"
                 android:textColor="@color/black"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_s"/>
 
             <TextView android:id="@+id/tvDetails"
                 android:textColor="@color/black"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_s"/>
 
         </LinearLayout>
     </ScrollView>
