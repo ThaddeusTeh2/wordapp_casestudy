@@ -52,6 +52,9 @@ class DetailWordFragment: Fragment() {
             btnDelete.setOnClickListener {
                 showDeleteDialogBox(args.wordId)
             }
+            btnBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 

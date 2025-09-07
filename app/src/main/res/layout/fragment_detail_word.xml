@@ -62,7 +62,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/tx_s">
+            android:padding="@dimen/tx_m">
 
             <TextView android:id="@+id/tvTitle"
                 android:textColor="@color/black"
@@ -90,7 +90,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tx_s"/>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/back"/>
         </LinearLayout>
+
+
+
     </ScrollView>
 
 
