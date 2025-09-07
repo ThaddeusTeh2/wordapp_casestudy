@@ -1,6 +1,7 @@
 package com.dx.wordapp
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -32,10 +33,23 @@ class MainActivity : AppCompatActivity() {
         val navHost = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHost.findNavController()
 
-        findViewById<BottomNavigationView>(R.id.nav_view)
-            .setupWithNavController(navController)
+        binding.navView.setupWithNavController(navController)
+
+        // help from ai to show bottom nav only if in home or completed fragment
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.homeFragment,
+                R.id.completedFragment -> showBottomNav(true)
+                else -> showBottomNav(false)
+            }
+        }
     }
-    
+
+    private fun showBottomNav(show: Boolean){
+        binding.navView.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+
     /**
      * Configure the system boundaries for edge-to-edge display
      * Like setting up the map boundaries in a factory
