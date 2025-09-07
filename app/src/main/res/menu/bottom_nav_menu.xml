@@ -1,16 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    
-    <!-- Unlearned Words Tab - No icon, text only -->
+
     <item
-        android:id="@+id/navigation_unlearned"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home"
         android:title="@string/unlearned_words" />
-    
-    <!-- Completed Words Tab - No icon, text only -->
+
     <item
-        android:id="@+id/navigation_completed"
+        android:id="@+id/completedFragment"
         android:icon="@drawable/ic_done"
         android:title="@string/completed_words" />
-        
+
 </menu>
