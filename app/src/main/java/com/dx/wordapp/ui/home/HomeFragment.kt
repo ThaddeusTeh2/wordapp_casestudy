@@ -14,7 +14,6 @@ import com.dx.wordapp.R
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dx.wordapp.databinding.FragmentBaseHomeBinding
-import com.dx.wordapp.databinding.FragmentHomeBinding
 import com.dx.wordapp.ui.adapter.WordsAdapter
 import kotlinx.coroutines.launch
 
@@ -67,7 +66,6 @@ class HomeFragment : Fragment() {
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        binding.navView.setupWithNavController(navController)
         binding.toolbar.setupWithNavController(navController)
     }
 
