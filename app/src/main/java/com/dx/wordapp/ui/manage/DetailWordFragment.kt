@@ -36,7 +36,11 @@ class DetailWordFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        runBinding()
+    }
 
+    // Binding Block
+    private fun runBinding(){
         val word = repo.getWord(args.wordId) ?: throw Exception("Word is Null")
         binding.run {
             tvTitle.setText(word.title)
@@ -44,22 +48,32 @@ class DetailWordFragment: Fragment() {
             tvSynonym.setText(word.synonym)
             tvDetails.setText(word.details)
 
-//            btnDone.setOnClickListener{}
+            btnDone.setOnClickListener{ makeWordCompleted()}
             btnEdit.setOnClickListener {
-                val action = DetailWordFragmentDirections.actionDetailWordFragmentToEditWordFragment(args.wordId)
+                val action = DetailWordFragmentDirections
+                    .actionDetailWordFragmentToEditWordFragment(args.wordId)
                 findNavController().navigate(action)
             }
-            btnDelete.setOnClickListener {
-                showDeleteDialogBox(args.wordId)
-            }
-            btnBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
+            btnDelete.setOnClickListener { showDeleteDialogBox(args.wordId) }
+            btnBack.setOnClickListener { findNavController().popBackStack() }
         }
     }
 
+    // Update isCompleted to true
+    fun makeWordCompleted(){
+        val word = repo.getWord(args.wordId) ?: throw Exception("Word is Null")
+        repo.updateWord(word.copy(isCompleted = true))
+
+        // Notify both lists
+        setFragmentResult("manage_word", Bundle()) // Home
+        setFragmentResult("manage_completed_word", Bundle()) // Completed
+
+        findNavController().popBackStack()
+    }
+
+
     //    Dialog popup
-    fun showDeleteDialogBox(wordId: Int) {
+    private fun showDeleteDialogBox(wordId: Int) {
         val dialog = Dialog(requireContext())
         val dialogBinding = DialogConfirmationBinding
             .inflate(layoutInflater, null, false)
@@ -73,7 +87,7 @@ class DetailWordFragment: Fragment() {
         dialogBinding.btnConfirm.setOnClickListener {
             repo.deleteWord(wordId)
             dialog.dismiss()
-            setFragmentResult("manage_product",Bundle())
+            setFragmentResult("manage_word",Bundle())
             findNavController().popBackStack()
         }
 
