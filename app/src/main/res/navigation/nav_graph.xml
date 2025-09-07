@@ -8,7 +8,7 @@
         android:id="@+id/homeFragment"
         android:name="com.dx.wordapp.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_base_home" >
         <action
             android:id="@+id/action_homeFragment_to_addWordFragment"
             app:destination="@id/addWordFragment" />
@@ -16,6 +16,20 @@
             android:id="@+id/action_homeFragment_to_detailWordFragment"
             app:destination="@id/detailWordFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/completedFragment"
+        android:name="com.dx.wordapp.ui.home.CompletedFragment"
+        android:label="CompletedFragment"
+        tools:layout="@layout/fragment_base_home" >
+        <action
+            android:id="@+id/action_completedFragment_to_detailWordFragment"
+            app:destination="@id/detailWordFragment" />
+        <action
+            android:id="@+id/action_completedFragment_to_addWordFragment"
+            app:destination="@id/addWordFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/addWordFragment"
         android:name="com.dx.wordapp.ui.manage.AddWordFragment"
@@ -31,26 +45,17 @@
             android:name="wordId"
             app:argType="integer" />
     </fragment>
+
     <fragment
         android:id="@+id/detailWordFragment"
         android:name="com.dx.wordapp.ui.manage.DetailWordFragment"
-        android:label="DetailWordFragment" >
+        android:label="DetailWordFragment"
+        tools:layout="@layout/fragment_detail_word">
         <argument
             android:name="wordId"
             app:argType="integer" />
         <action
             android:id="@+id/action_detailWordFragment_to_editWordFragment"
             app:destination="@id/editWordFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/completedFragment"
-        android:name="com.dx.wordapp.ui.home.CompletedFragment"
-        android:label="CompletedFragment" >
-        <action
-            android:id="@+id/action_completedFragment_to_detailWordFragment"
-            app:destination="@id/detailWordFragment" />
-        <action
-            android:id="@+id/action_completedFragment_to_addWordFragment"
-            app:destination="@id/addWordFragment" />
     </fragment>
 </navigation>
