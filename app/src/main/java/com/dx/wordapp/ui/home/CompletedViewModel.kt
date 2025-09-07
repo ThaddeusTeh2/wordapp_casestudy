@@ -30,7 +30,7 @@ class CompletedViewModel(
      * Factory analogy: Request a fresh snapshot of items from storage.
      */
     fun getWords(){
-        _words.value = repo.getAllWords()
+        _words.value = repo.getCompletedWords()
     }
 
     // Standard: TODO add search/filters; update _words based on criteria.
