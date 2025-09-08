@@ -39,4 +39,5 @@
     <string name="text_update">Update</string>
     <string name="text_done">Done</string>
     <string name="search_hint">Search</string>
+    <string name="back">Back</string>
 </resources>

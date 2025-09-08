@@ -14,7 +14,6 @@ import com.dx.wordapp.R
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dx.wordapp.databinding.FragmentBaseHomeBinding
-import com.dx.wordapp.databinding.FragmentHomeBinding
 import com.dx.wordapp.ui.adapter.WordsAdapter
 import kotlinx.coroutines.launch
 
@@ -67,7 +66,6 @@ class HomeFragment : Fragment() {
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        binding.navView.setupWithNavController(navController)
         binding.toolbar.setupWithNavController(navController)
     }
 
@@ -77,7 +75,6 @@ class HomeFragment : Fragment() {
      */
     fun observeWords(){
         lifecycleScope.launch {
-            binding.toolbar.title = getString(R.string.app_name)
             viewModel.words.collect{ words ->
                 adapter.setWords(words)
                 updateEmptyState(words.isEmpty())
@@ -102,7 +99,11 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionHomeFragmentToDetailWordFragment(it.id!!)
             findNavController().navigate(action)
 
-            setFragmentResultListener("manage_product"){_,_ ->
+            setFragmentResultListener("manage_word"){_,_ ->
+                viewModel.getWords()
+            }
+
+            setFragmentResultListener("manage_completed_word"){_,_ ->
                 viewModel.getWords()
             }
         }

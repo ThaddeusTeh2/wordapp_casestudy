@@ -7,14 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Navigation Host Fragment - Only component in main activity -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/navHostFragment"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph" />
+        android:orientation="vertical">
 
+        <!-- Navigation Host Fragment - Only component in main activity -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/navHostFragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph" />
+
+        <!-- Bottom Navigation -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:menu="@menu/bottom_nav_menu" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

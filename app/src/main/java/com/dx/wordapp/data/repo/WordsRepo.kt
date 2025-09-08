@@ -21,6 +21,11 @@ class WordsRepo private constructor() {
 
     fun getAllWords() = items.values.toList()
 
+    fun getCompletedWords() = items.values.filter { it.isCompleted }.toList()
+
+    fun getUnlearnedWords() = items.values.filter { !it.isCompleted }.toList()
+
+
     fun deleteWord(id:Int){
         items.remove(id)
     }

@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <!-- Toolbar -->
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -89,14 +89,6 @@
                 android:src="@drawable/ic_add" />
 
         </FrameLayout>
-
-        <!-- Bottom Navigation -->
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:menu="@menu/bottom_nav_menu" />
 
     </LinearLayout>
 

@@ -40,7 +40,7 @@ class CompletedFragment : Fragment() {
         // Standard: Navigate to Add screen when FAB is clicked.
         // Factory analogy: Create a new assembly when pressing the add control.
         binding.fabAdd.setOnClickListener{
-            val action = HomeFragmentDirections.actionHomeFragmentToAddWordFragment()
+            val action = CompletedFragmentDirections.actionCompletedFragmentToAddWordFragment()
             findNavController().navigate(action)
         }
 
@@ -60,7 +60,6 @@ class CompletedFragment : Fragment() {
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        binding.navView.setupWithNavController(navController)
         binding.toolbar.setupWithNavController(navController)
     }
 
@@ -70,7 +69,7 @@ class CompletedFragment : Fragment() {
      */
     fun observeWords(){
         lifecycleScope.launch {
-            binding.toolbar.title = getString(R.string.app_name)
+//            binding.toolbar.title = getString(R.string.app_name)
             viewModel.words.collect{ words ->
                 adapter.setWords(words)
                 updateEmptyState(words.isEmpty())
@@ -92,10 +91,10 @@ class CompletedFragment : Fragment() {
      */
     fun initializeRecyclerView(){
         adapter = WordsAdapter(emptyList()){
-            val action = HomeFragmentDirections.actionHomeFragmentToDetailWordFragment(it.id!!)
+            val action = CompletedFragmentDirections.actionCompletedFragmentToDetailWordFragment(it.id!!)
             findNavController().navigate(action)
 
-            setFragmentResultListener("manage_product"){_,_ ->
+            setFragmentResultListener("manage_word"){_,_ ->
                 viewModel.getWords()
             }
         }
