@@ -21,6 +21,10 @@ class CompletedViewModel(
     private val _words = MutableStateFlow<List<Word>>(emptyList())
     val words = _words.asStateFlow()
 
+    // manage the list displayed in the search view, keeping it independent from the main screen's list.
+    private val _searchResults = MutableStateFlow<List<Word>>(emptyList())
+    val searchResults = _searchResults.asStateFlow()
+
     private var sortType = SortType.DATE
     private var sortOrder = SortOrder.ASCENDING
 
@@ -33,7 +37,9 @@ class CompletedViewModel(
      * Factory analogy: Request a fresh snapshot of items from storage.
      */
     fun getWords(){
-        _words.value = repo.getCompletedWords()
+        val completedWords = repo.getCompletedWords()
+        _words.value = completedWords
+        _searchResults.value = completedWords
     }
 
     // Takes in two fields and pass it down to [applySorting()]
@@ -41,6 +47,16 @@ class CompletedViewModel(
         sortType = type
         sortOrder = order
         applySortingCompleted()
+    }
+
+    fun searchWords(query: String) {
+        if (query.isBlank()) {
+            _searchResults.value = _words.value
+            return
+        }
+        _searchResults.value = _words.value.filter { word ->
+            word.title.contains(query, ignoreCase = true)
+        }
     }
 
     // To check what type is passed and sort accordingly
