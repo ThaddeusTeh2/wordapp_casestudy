@@ -1,27 +1,26 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme -->
     <style name="Theme.Wordapp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Primary brand color -->
-        <item name="colorPrimary">#2C365A</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
+                <!-- Primary brand color -->
+        <item name="colorPrimary">@color/deep_ocean</item>
+        <item name="colorOnPrimary">@color/white</item>
+                <!-- Secondary brand color -->
 
-        <!-- Secondary brand color -->
-        <item name="colorSecondary">#C4BCB0</item>
-        <item name="colorOnSecondary">#2C365A</item>
+        <item name="colorSecondary">@color/beige</item>
+        <item name="colorOnSecondary">@color/deep_ocean</item>
+                <!-- Tertiary brand color -->
 
-        <!-- Tertiary brand color -->
-        <item name="colorTertiary">#EEE8DF</item>
-        <item name="colorOnTertiary">#2C365A</item>
+        <item name="colorTertiary">@color/cream</item>
+        <item name="colorOnTertiary">@color/deep_ocean</item>
+                <!-- Background & Surface -->
 
-        <!-- Background & Surface -->
-        <item name="android:colorBackground">#EEE8DF</item>
-        <item name="colorSurface">#FFFFFF</item>
-        <item name="colorOnSurface">#2C365A</item>
+        <item name="android:colorBackground">@color/cream</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/deep_ocean</item>
+                <!-- Error colors -->
 
-        <!-- Error colors -->
-        <item name="colorError">#B00020</item>
-        <item name="colorOnError">#FFFFFF</item>
+        <item name="colorError">@color/red</item>
+        <item name="colorOnError">@color/white</item>
     </style>
 
 </resources>

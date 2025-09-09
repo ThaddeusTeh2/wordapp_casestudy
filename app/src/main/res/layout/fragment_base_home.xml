@@ -77,7 +77,6 @@
                     android:text="@string/no_words_to_show"
                     android:textSize="@dimen/tx_xl"
                     android:textColor="?attr/colorOnSurface" />
-
             </LinearLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -86,6 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
                 android:layout_margin="@dimen/xxl"
+                app:tint="?attr/colorOnPrimary"
+                app:backgroundTint="?attr/colorPrimary"
                 android:src="@drawable/ic_add" />
 
         </FrameLayout>
