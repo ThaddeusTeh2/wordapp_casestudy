@@ -51,6 +51,16 @@ class HomeViewModel(
         applySorting()
     }
 
+    fun searchWords(query: String) {
+        if (query.isBlank()) {
+            _searchResults.value = _words.value
+            return
+        }
+        _searchResults.value = _words.value.filter { word ->
+            word.title.contains(query, ignoreCase = true)
+        }
+    }
+
     // To check what type is passed and sort accordingly
     private fun applySorting() {
         val list = repo.getUnlearnedWords()
@@ -65,6 +75,7 @@ class HomeViewModel(
         }
         _words.value = sorted
     }
+
 
     // types and orders enum for easier changing
     enum class SortType{ TITLE,DATE }
