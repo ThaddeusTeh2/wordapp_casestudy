@@ -17,6 +17,7 @@ import com.dx.wordapp.databinding.FragmentDetailWordBinding
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.setFragmentResult
 import com.dx.wordapp.databinding.DialogConfirmationBinding
+import com.google.android.material.chip.Chip
 
 
 class DetailWordFragment: Fragment() {
@@ -41,10 +42,11 @@ class DetailWordFragment: Fragment() {
     // Binding Block
     private fun runBinding(){
         val word = repo.getWord(args.wordId) ?: throw Exception("Word is Null")
+        syn()
         binding.run {
             tvTitle.setText(word.title)
             tvDefinition.setText(word.definition)
-            tvSynonym.setText(word.synonym)
+//            tvSynonym.setText(word.synonym)
             tvDetails.setText(word.details)
             btnDone.icon = if (!word.isCompleted) {
                 ContextCompat.getDrawable(requireContext(), R.drawable.ic_done)
@@ -61,6 +63,21 @@ class DetailWordFragment: Fragment() {
             btnBack.setOnClickListener { findNavController().popBackStack() }
         }
     }
+
+    fun syn() {
+        val word = repo.getWord(args.wordId) ?: return
+        binding.chipGroup.removeAllViews() // clear old chips
+
+        word.synonym.split(",").map { it.trim() }.forEach { synonym ->
+            val chip = Chip(requireContext()).apply {
+                text = synonym
+                isClickable = false
+                isCheckable = false
+            }
+            binding.chipGroup.addView(chip)
+        }
+    }
+
 
     // Update isCompleted to true
     fun changeWordCompleted(){
