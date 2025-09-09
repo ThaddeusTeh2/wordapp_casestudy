@@ -26,6 +26,9 @@ class HomeViewModel(
     private val _searchResults = MutableStateFlow<List<Word>>(emptyList())
     val searchResults = _searchResults.asStateFlow()
 
+    private var sortType = SortType.DATE
+    private var sortOrder = SortOrder.ASCENDING
+
     init {
         getWords()
     }
@@ -41,34 +44,30 @@ class HomeViewModel(
 
     }
 
-    // Standard: TODO add search/filters; update _words based on criteria.
-    // Factory analogy: Apply filter/sort modules to the main belt.
-    // Replace your existing sort functions
-
-    fun sortByTitle() {
-        _words.update { it.sortedBy { word -> word.title } }
+    // Takes in two fields and pass it down to [applySorting()]
+    fun setSort(type: SortType,order: SortOrder){
+        sortType = type
+        sortOrder = order
+        applySorting()
     }
 
-    fun sortByDate() {
-        _words.update { it.sortedBy { word -> word.date } }
-    }
+    // To check what type is passed and sort accordingly
+    private fun applySorting() {
+        val list = repo.getUnlearnedWords()
+        val sorted = when (sortType) {
+            SortType.TITLE ->
+                if (sortOrder == SortOrder.ASCENDING) list.sortedBy { it.title }
+                else list.sortedByDescending { it.title }
 
-    fun sortByAscending() {
-        _words.update { it.sortedBy { word -> word.date } }
-    }
-
-    fun sortByDescending() {
-        _words.update { it.sortedByDescending { word -> word.date } }
-    }
-
-    // filters the master word list based on a user's query and updates the _searchResults flow
-    fun searchWords(query: String) {
-        if (query.isBlank()) {
-            _searchResults.value = _words.value
-            return
+            SortType.DATE ->
+                if (sortOrder == SortOrder.ASCENDING) list.sortedBy { it.date }
+                else list.sortedByDescending { it.date }
         }
-        _searchResults.value = _words.value.filter { word ->
-            word.title.contains(query, ignoreCase = true)
-        }
+        _words.value = sorted
     }
+
+    // types and orders enum for easier changing
+    enum class SortType{ TITLE,DATE }
+    enum class SortOrder{ ASCENDING,DESCENDING }
+
 }

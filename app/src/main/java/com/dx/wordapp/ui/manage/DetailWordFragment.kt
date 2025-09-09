@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.dx.wordapp.R
@@ -16,7 +16,6 @@ import com.dx.wordapp.data.repo.WordsRepo
 import com.dx.wordapp.databinding.FragmentDetailWordBinding
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
 import com.dx.wordapp.databinding.DialogConfirmationBinding
 
 
@@ -47,8 +46,12 @@ class DetailWordFragment: Fragment() {
             tvDefinition.setText(word.definition)
             tvSynonym.setText(word.synonym)
             tvDetails.setText(word.details)
-
-            btnDone.setOnClickListener{ makeWordCompleted()}
+            btnDone.icon = if (!word.isCompleted) {
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_done)
+            } else {
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_undone)
+            }
+            btnDone.setOnClickListener{ changeWordCompleted()}
             btnEdit.setOnClickListener {
                 val action = DetailWordFragmentDirections
                     .actionDetailWordFragmentToEditWordFragment(args.wordId)
@@ -60,9 +63,15 @@ class DetailWordFragment: Fragment() {
     }
 
     // Update isCompleted to true
-    fun makeWordCompleted(){
+    fun changeWordCompleted(){
         val word = repo.getWord(args.wordId) ?: throw Exception("Word is Null")
-        repo.updateWord(word.copy(isCompleted = true))
+        if (!word.isCompleted){
+            repo.updateWord(word.copy(isCompleted = true))
+//            binding.btnDone.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_undone)
+        }else{
+            repo.updateWord(word.copy(isCompleted = false))
+//            binding.btnDone.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_done)
+        }
 
         // Notify both lists
         setFragmentResult("manage_word", Bundle()) // Home

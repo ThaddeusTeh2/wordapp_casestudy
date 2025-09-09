@@ -21,6 +21,9 @@ class CompletedViewModel(
     private val _words = MutableStateFlow<List<Word>>(emptyList())
     val words = _words.asStateFlow()
 
+    private var sortType = SortType.DATE
+    private var sortOrder = SortOrder.ASCENDING
+
     init {
         getWords()
     }
@@ -33,22 +36,30 @@ class CompletedViewModel(
         _words.value = repo.getCompletedWords()
     }
 
-    // Standard: TODO add search/filters; update _words based on criteria.
-    // Factory analogy: Apply filter/sort modules to the main belt.
-
-    fun sortByTitle(){
-        _words.value = repo.getUnlearnedWords().sortedBy { it.title }
+    // Takes in two fields and pass it down to [applySorting()]
+    fun setSortCompleted(type: SortType,order: SortOrder){
+        sortType = type
+        sortOrder = order
+        applySortingCompleted()
     }
 
-    fun sortByDate(){
-        _words.value = repo.getUnlearnedWords().sortedBy { it.date }
+    // To check what type is passed and sort accordingly
+    private fun applySortingCompleted() {
+        val list = repo.getCompletedWords()
+        val sorted = when (sortType) {
+            SortType.TITLE ->
+                if (sortOrder == SortOrder.ASCENDING) list.sortedBy { it.title }
+                else list.sortedByDescending { it.title }
+
+            SortType.DATE ->
+                if (sortOrder == SortOrder.ASCENDING) list.sortedBy { it.date }
+                else list.sortedByDescending { it.date }
+        }
+        _words.value = sorted
     }
 
-    fun sortByAscending(){
-        _words.value = repo.getUnlearnedWords().sortedBy { it.date }
-    }
+    // types and orders enum for easier changing
+    enum class SortType{ TITLE,DATE }
+    enum class SortOrder{ ASCENDING,DESCENDING }
 
-    fun sortByDescending(){
-        _words.value = repo.getUnlearnedWords().sortedByDescending { it.date }
-    }
 }

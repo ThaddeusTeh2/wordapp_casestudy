@@ -35,18 +35,18 @@
         android:layout_marginBottom="@dimen/xxl">
 
         <RadioButton
-            android:id="@+id/rbSortByTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sort_by_title"
-            android:checked="true"
-            android:layout_marginBottom="@dimen/xs" />
-
-        <RadioButton
             android:id="@+id/rbSortByDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sort_by_date"
+            android:checked="true"
+            android:layout_marginBottom="@dimen/xs" />
+
+        <RadioButton
+            android:id="@+id/rbSortByTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_title"
             android:layout_marginBottom="@dimen/xs" />
 
     </RadioGroup>

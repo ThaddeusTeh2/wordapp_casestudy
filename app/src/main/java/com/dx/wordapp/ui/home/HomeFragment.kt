@@ -159,27 +159,32 @@ class HomeFragment : Fragment() {
     // Show sort dialog box
     private fun showFilterDialogBox(wordId: Int) {
         val dialog = Dialog(requireContext())
-        val dialogBinding = DialogFilterBinding
-            .inflate(layoutInflater, null, false)
+        val dialogBinding = DialogFilterBinding.inflate(layoutInflater, null, false)
         dialog.setContentView(dialogBinding.root)
         dialogBinding.root.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
 
-        dialogBinding.run {
-            rbSortByTitle.setOnClickListener {
-
-            }
-            rbSortByDate.setOnClickListener{
-                viewModel.sortByDate()
-            }
-
-            rbAscending.setOnClickListener {  }
-            rbDescending.setOnClickListener {  }
-
-            btnCancel.setOnClickListener { dialog.dismiss() }
-            btnApply.setOnClickListener {  }
-        }
+        runDialogBinding(dialog, dialogBinding)
 
         dialog.show()
+    }
+
+    private fun runDialogBinding(dialog: Dialog, dialogBinding: DialogFilterBinding) {
+        var sortType = HomeViewModel.SortType.DATE
+        var sortOrder = HomeViewModel.SortOrder.ASCENDING
+
+        dialogBinding.run {
+            rbSortByTitle.setOnClickListener { sortType = HomeViewModel.SortType.TITLE }
+            rbSortByDate.setOnClickListener { sortType = HomeViewModel.SortType.DATE }
+
+            rbAscending.setOnClickListener { sortOrder = HomeViewModel.SortOrder.ASCENDING }
+            rbDescending.setOnClickListener { sortOrder = HomeViewModel.SortOrder.DESCENDING }
+
+            btnCancel.setOnClickListener { dialog.dismiss() }
+            btnApply.setOnClickListener {
+                viewModel.setSort(sortType, sortOrder)
+                dialog.dismiss()
+            }
+        }
     }
 
     // Standard: TODO integrate search with ViewModel (query string -> filtered list).
