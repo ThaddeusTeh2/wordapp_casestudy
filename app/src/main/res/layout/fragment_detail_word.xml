@@ -64,8 +64,24 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/tx_m">
 
+            <TextView android:id="@+id/tvTitleHeader"
+                android:textColor="@color/black"
+                android:text="Title:"
+                android:textSize="@dimen/tx_xxl"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_s"/>
+
             <TextView android:id="@+id/tvTitle"
                 android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_s"/>
+
+            <TextView android:id="@+id/tvDefinitionHeader"
+                android:textColor="@color/black"
+                android:text="Definition:"
                 android:textSize="@dimen/tx_xxl"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -78,8 +94,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tx_s"/>
 
+            <TextView android:id="@+id/tvSynonymHeader"
+                android:textColor="@color/black"
+                android:text="Synonyms:"
+                android:textSize="@dimen/tx_xxl"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_s"/>
+
             <TextView android:id="@+id/tvSynonym"
                 android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_s"/>
+
+            <TextView android:id="@+id/tvDetailsHeader"
+                android:textColor="@color/black"
+                android:text="Details:"
+                android:textSize="@dimen/tx_xxl"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tx_s"/>

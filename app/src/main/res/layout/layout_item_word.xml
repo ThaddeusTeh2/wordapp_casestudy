@@ -17,13 +17,15 @@
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.TitleSmall"
+            android:maxLines="1"
             android:text="@string/title" />
 
         <TextView
             android:id="@+id/tvDefinition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.Material3.TitleSmall"
+            android:maxLines="1"
             android:text="@string/definition_yo"
             android:layout_marginTop="@dimen/xs"/>
     </LinearLayout>
