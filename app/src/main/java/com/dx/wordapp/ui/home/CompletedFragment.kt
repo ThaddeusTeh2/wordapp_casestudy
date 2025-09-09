@@ -118,27 +118,32 @@ class CompletedFragment : Fragment() {
     // Show sort dialog box
     private fun showFilterDialogBox(wordId: Int) {
         val dialog = Dialog(requireContext())
-        val dialogBinding = DialogFilterBinding
-            .inflate(layoutInflater, null, false)
+        val dialogBinding = DialogFilterBinding.inflate(layoutInflater, null, false)
         dialog.setContentView(dialogBinding.root)
         dialogBinding.root.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
 
-        dialogBinding.run {
-            rbSortByTitle.setOnClickListener {
-
-            }
-            rbSortByDate.setOnClickListener{
-                viewModel.sortByDate()
-            }
-
-            rbAscending.setOnClickListener {  }
-            rbDescending.setOnClickListener {  }
-
-            btnCancel.setOnClickListener { dialog.dismiss() }
-            btnApply.setOnClickListener {  }
-        }
+        runDialogBinding(dialog, dialogBinding)
 
         dialog.show()
+    }
+
+    private fun runDialogBinding(dialog: Dialog, dialogBinding: DialogFilterBinding) {
+        var sortType = CompletedViewModel.SortType.DATE
+        var sortOrder = CompletedViewModel.SortOrder.ASCENDING
+
+        dialogBinding.run {
+            rbSortByTitle.setOnClickListener { sortType = CompletedViewModel.SortType.TITLE }
+            rbSortByDate.setOnClickListener { sortType = CompletedViewModel.SortType.DATE }
+
+            rbAscending.setOnClickListener { sortOrder = CompletedViewModel.SortOrder.ASCENDING }
+            rbDescending.setOnClickListener { sortOrder = CompletedViewModel.SortOrder.DESCENDING }
+
+            btnCancel.setOnClickListener { dialog.dismiss() }
+            btnApply.setOnClickListener {
+                viewModel.setSortCompleted(sortType, sortOrder)
+                dialog.dismiss()
+            }
+        }
     }
 
 }
