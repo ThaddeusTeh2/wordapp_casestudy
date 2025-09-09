@@ -10,10 +10,18 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:title="@string/details"
-        app:titleTextColor="?attr/colorOnPrimary"
-        />
+        android:background="?attr/colorPrimary">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details"
+            android:textColor="?attr/colorOnPrimary"
+            android:layout_gravity="center"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:id="@+id/button_container"
@@ -64,14 +72,15 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/tx_m">
 
-            <TextView android:id="@+id/tvTitleHeader"
-                android:textColor="@color/black"
-                android:text="Title:"
-                android:textSize="@dimen/tx_xxl"
-                android:textStyle="bold"
+            <TextView
+                android:id="@+id/tvTitleHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/tx_s"/>
+                android:layout_marginTop="@dimen/tx_s"
+                android:text="@string/title_header"
+                android:textColor="@color/black"
+                android:textSize="@dimen/tx_xxl"
+                android:textStyle="bold" />
 
             <TextView android:id="@+id/tvTitle"
                 android:textColor="@color/black"
@@ -81,7 +90,7 @@
 
             <TextView android:id="@+id/tvDefinitionHeader"
                 android:textColor="@color/black"
-                android:text="Definition:"
+                android:text="@string/definition_header"
                 android:textSize="@dimen/tx_xxl"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -96,7 +105,7 @@
 
             <TextView android:id="@+id/tvSynonymHeader"
                 android:textColor="@color/black"
-                android:text="Synonyms:"
+                android:text="@string/synonym_header"
                 android:textSize="@dimen/tx_xxl"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -111,7 +120,7 @@
 
             <TextView android:id="@+id/tvDetailsHeader"
                 android:textColor="@color/black"
-                android:text="Details:"
+                android:text="@string/details_header"
                 android:textSize="@dimen/tx_xxl"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"

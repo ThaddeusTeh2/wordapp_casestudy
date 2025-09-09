@@ -17,8 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:title="@string/app_name"
-            app:titleTextColor="?attr/colorOnPrimary" />
+            app:titleCentered="true"
+            app:titleTextColor="?attr/colorOnPrimary"
+            app:titleTextAppearance="?attr/textAppearanceTitleLarge" />
 
         <!-- Search bar row -->
         <LinearLayout
@@ -98,6 +99,15 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_anchor="@id/search" />
+        app:layout_anchor="@id/search" >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvWordsSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/xxxxl"
+            android:clipToPadding="false"
+            android:layout_margin="@dimen/xs" />
+    </com.google.android.material.search.SearchView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
