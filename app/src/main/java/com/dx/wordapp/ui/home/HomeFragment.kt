@@ -1,11 +1,15 @@
 package com.dx.wordapp.ui.home
 
+import android.app.Dialog
+import android.graphics.Color
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.toDrawable
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -13,6 +17,8 @@ import androidx.navigation.fragment.NavHostFragment
 import com.dx.wordapp.R
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dx.wordapp.databinding.DialogConfirmationBinding
+import com.dx.wordapp.databinding.DialogFilterBinding
 import com.dx.wordapp.databinding.FragmentBaseHomeBinding
 import com.dx.wordapp.ui.adapter.WordsAdapter
 import kotlinx.coroutines.launch
@@ -48,6 +54,10 @@ class HomeFragment : Fragment() {
         binding.fabAdd.setOnClickListener{
             val action = HomeFragmentDirections.actionHomeFragmentToAddWordFragment()
             findNavController().navigate(action)
+        }
+
+        binding.fabSort.setOnClickListener {
+            showFilterDialogBox(id)
         }
 
         // Standard: Refresh list when add/edit finishes in child fragments.
@@ -111,15 +121,43 @@ class HomeFragment : Fragment() {
         binding.rvWords.adapter = adapter
     }
 
-    // Standard: TODO integrate search with ViewModel (query string -> filtered list).
-    // Factory analogy: Install a filter station on the belt.
+    // Refresh the page everytime you resume the page (to fix the ui not refreshing issue)
+    override fun onResume() {
+        super.onResume()
+        viewModel.getWords()
+    }
 
     // Standard: TODO integrate sort/filter dialog with ViewModel (title/date, asc/desc).
     // Factory analogy: Configure splitter priorities on the belt.
 
-    // Standard: TODO navigate to detail screen on item click when implemented.
-    // Factory analogy: Inspect item at a dedicated inspection station.
+    // Show sort dialog box
+    private fun showFilterDialogBox(wordId: Int) {
+        val dialog = Dialog(requireContext())
+        val dialogBinding = DialogFilterBinding
+            .inflate(layoutInflater, null, false)
+        dialog.setContentView(dialogBinding.root)
+        dialogBinding.root.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
 
-    // Standard: TODO hook bottom navigation to filter completed vs unlearned when implemented.
-    // Factory analogy: Switch lanes between completed and in-progress items.
+        dialogBinding.run {
+            rbSortByTitle.setOnClickListener {
+
+            }
+            rbSortByDate.setOnClickListener{
+                viewModel.sortByDate()
+            }
+
+            rbAscending.setOnClickListener {  }
+            rbDescending.setOnClickListener {  }
+
+            btnCancel.setOnClickListener { dialog.dismiss() }
+            btnApply.setOnClickListener {  }
+        }
+
+        dialog.show()
+    }
+
+    // Standard: TODO integrate search with ViewModel (query string -> filtered list).
+    // Factory analogy: Install a filter station on the belt.
+
+
 }
