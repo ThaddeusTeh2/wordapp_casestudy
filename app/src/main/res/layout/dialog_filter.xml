@@ -55,7 +55,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Order"
+        android:text="@string/order"
         android:textSize="@dimen/tx_l"
         android:textStyle="bold"
         android:layout_marginBottom="@dimen/s" />
@@ -105,7 +105,7 @@
             android:id="@+id/btnApply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Apply"
+            android:text="@string/apply"
             style="@style/Widget.Material3.Button" />
 
     </LinearLayout>

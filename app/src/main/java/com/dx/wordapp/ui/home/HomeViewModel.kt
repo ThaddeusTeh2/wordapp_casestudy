@@ -35,4 +35,19 @@ class HomeViewModel(
 
     // Standard: TODO add search/filters; update _words based on criteria.
     // Factory analogy: Apply filter/sort modules to the main belt.
+    fun sortByTitle(){
+        _words.value = repo.getUnlearnedWords().sortedBy { it.title }
+    }
+
+    fun sortByDate(){
+        _words.value = repo.getUnlearnedWords().sortedBy { it.date }
+    }
+
+    fun sortByAscending(){
+        _words.value = repo.getUnlearnedWords().sortedBy { it.date }
+    }
+
+    fun sortByDescending(){
+        _words.value = repo.getUnlearnedWords().sortedByDescending { it.date }
+    }
 }
