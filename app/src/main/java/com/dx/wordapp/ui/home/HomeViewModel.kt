@@ -5,7 +5,7 @@ import com.dx.wordapp.data.model.Word
 import com.dx.wordapp.data.repo.WordsRepo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-
+import kotlinx.coroutines.flow.update
 
 /**
  * Standard: ViewModel holding the current list of words and exposing them as a StateFlow.
@@ -22,6 +22,10 @@ class HomeViewModel(
     private val _words = MutableStateFlow<List<Word>>(emptyList())
     val words = _words.asStateFlow()
 
+    // manage the list displayed in the search view, keeping it independent from the main screen's list.
+    private val _searchResults = MutableStateFlow<List<Word>>(emptyList())
+    val searchResults = _searchResults.asStateFlow()
+
     private var sortType = SortType.DATE
     private var sortOrder = SortOrder.ASCENDING
 
@@ -34,7 +38,10 @@ class HomeViewModel(
      * Factory analogy: Request a fresh snapshot of items from storage.
      */
     fun getWords(){
-        _words.value = repo.getUnlearnedWords()
+        val unlearnedWords = repo.getUnlearnedWords()
+        _words.value = unlearnedWords
+        _searchResults.value = unlearnedWords
+
     }
 
     // Takes in two fields and pass it down to [applySorting()]

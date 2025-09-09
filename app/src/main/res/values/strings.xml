@@ -42,4 +42,8 @@
     <string name="back">Back</string>
     <string name="apply">Apply</string>
     <string name="order">Order</string>
+    <string name="title_header">Title:</string>
+    <string name="definition_header">Definition:</string>
+    <string name="synonym_header">Synonyms:</string>
+    <string name="details_header">Details:</string>
 </resources>

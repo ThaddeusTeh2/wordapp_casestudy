@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
@@ -34,6 +35,9 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentBaseHomeBinding
     private lateinit var adapter: WordsAdapter
 
+    private lateinit var searchAdapter: WordsAdapter
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +52,7 @@ class HomeFragment : Fragment() {
         initializeRecyclerView()
         setupNavigation()
         observeWords()
+        observeSearchResults()
 
         // Standard: Navigate to Add screen when FAB is clicked.
         // Factory analogy: Create a new assembly when pressing the add control.
@@ -65,6 +70,11 @@ class HomeFragment : Fragment() {
         setFragmentResultListener("manage_word"){_,_ ->
             viewModel.getWords()
         }
+
+        binding.searchView.editText.addTextChangedListener { editable ->
+            viewModel.searchWords(editable.toString())
+        }
+
     }
 
     /**
@@ -88,6 +98,15 @@ class HomeFragment : Fragment() {
             viewModel.words.collect{ words ->
                 adapter.setWords(words)
                 updateEmptyState(words.isEmpty())
+            }
+        }
+    }
+
+    // same as observeWords but for the search results
+    private fun observeSearchResults() {
+        lifecycleScope.launch {
+            viewModel.searchResults.collect { results ->
+                searchAdapter.setWords(results)
             }
         }
     }
@@ -119,6 +138,13 @@ class HomeFragment : Fragment() {
         }
         binding.rvWords.layoutManager = LinearLayoutManager(requireContext())
         binding.rvWords.adapter = adapter
+
+        binding.rvWordsSearch.layoutManager = LinearLayoutManager(requireContext())
+        searchAdapter = WordsAdapter(emptyList()) {
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailWordFragment(it.id!!)
+            findNavController().navigate(action)
+        }
+        binding.rvWordsSearch.adapter = searchAdapter
     }
 
     // Refresh the page everytime you resume the page (to fix the ui not refreshing issue)
