@@ -1,11 +1,14 @@
 package com.dx.wordapp.ui.home
 
+import android.app.Dialog
+import android.graphics.Color
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -13,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dx.wordapp.R
+import com.dx.wordapp.databinding.DialogFilterBinding
 import com.dx.wordapp.databinding.FragmentBaseHomeBinding
 import com.dx.wordapp.ui.adapter.WordsAdapter
 import kotlinx.coroutines.launch
@@ -37,11 +41,15 @@ class CompletedFragment : Fragment() {
         setupNavigation()
         observeWords()
 
+
         // Standard: Navigate to Add screen when FAB is clicked.
         // Factory analogy: Create a new assembly when pressing the add control.
-        binding.fabAdd.setOnClickListener{
-            val action = CompletedFragmentDirections.actionCompletedFragmentToAddWordFragment()
-            findNavController().navigate(action)
+        binding.run {
+            fabAdd.setOnClickListener {
+                val action = CompletedFragmentDirections.actionCompletedFragmentToAddWordFragment()
+                findNavController().navigate(action)
+            }
+            fabSort.setOnClickListener { showFilterDialogBox(id) }
         }
 
         // Standard: Refresh list when add/edit finishes in child fragments.
@@ -69,7 +77,6 @@ class CompletedFragment : Fragment() {
      */
     fun observeWords(){
         lifecycleScope.launch {
-//            binding.toolbar.title = getString(R.string.app_name)
             viewModel.words.collect{ words ->
                 adapter.setWords(words)
                 updateEmptyState(words.isEmpty())
@@ -101,4 +108,37 @@ class CompletedFragment : Fragment() {
         binding.rvWords.layoutManager = LinearLayoutManager(requireContext())
         binding.rvWords.adapter = adapter
     }
+
+    // Refresh the page everytime you resume the page (to fix the ui not refreshing issue)
+    override fun onResume() {
+        super.onResume()
+        viewModel.getWords()
+    }
+
+    // Show sort dialog box
+    private fun showFilterDialogBox(wordId: Int) {
+        val dialog = Dialog(requireContext())
+        val dialogBinding = DialogFilterBinding
+            .inflate(layoutInflater, null, false)
+        dialog.setContentView(dialogBinding.root)
+        dialogBinding.root.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+
+        dialogBinding.run {
+            rbSortByTitle.setOnClickListener {
+
+            }
+            rbSortByDate.setOnClickListener{
+                viewModel.sortByDate()
+            }
+
+            rbAscending.setOnClickListener {  }
+            rbDescending.setOnClickListener {  }
+
+            btnCancel.setOnClickListener { dialog.dismiss() }
+            btnApply.setOnClickListener {  }
+        }
+
+        dialog.show()
+    }
+
 }
