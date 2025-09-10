@@ -69,12 +69,14 @@ class DetailWordFragment: Fragment() {
         binding.chipGroup.removeAllViews() // clear old chips
 
         word.synonym.split(",").map { it.trim() }.forEach { synonym ->
-            val chip = Chip(requireContext()).apply {
-                text = synonym
-                isClickable = false
-                isCheckable = false
+            if (synonym != ""){
+                val chip = Chip(requireContext()).apply {
+                    text = synonym
+                    isClickable = false
+                    isCheckable = false
+                }
+                binding.chipGroup.addView(chip)
             }
-            binding.chipGroup.addView(chip)
         }
     }
 
