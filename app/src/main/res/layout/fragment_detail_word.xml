@@ -112,11 +112,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/tx_s"/>
 
-            <TextView android:id="@+id/tvSynonym"
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
+<!--            <TextView android:id="@+id/tvSynonym"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/tx_s"/>-->
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/tx_s"/>
+                app:singleLine="false"
+                app:chipSpacing="8dp" />
+
 
             <TextView android:id="@+id/tvDetailsHeader"
                 android:textColor="@color/black"

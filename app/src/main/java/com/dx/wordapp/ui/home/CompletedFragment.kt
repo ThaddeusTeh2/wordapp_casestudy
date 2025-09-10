@@ -46,8 +46,6 @@ class CompletedFragment : Fragment() {
         observeWords()
         observeSearchResults()
 
-
-
         // Standard: Navigate to Add screen when FAB is clicked.
         // Factory analogy: Create a new assembly when pressing the add control.
         binding.run {
@@ -62,6 +60,10 @@ class CompletedFragment : Fragment() {
         // Factory analogy: Update conveyor when another station finishes processing.
         setFragmentResultListener("manage_word"){_,_ ->
             viewModel.getWords()
+        }
+
+        binding.searchView.editText.addTextChangedListener { editable ->
+            viewModel.searchWords(editable.toString())
         }
     }
 
@@ -120,9 +122,6 @@ class CompletedFragment : Fragment() {
                 viewModel.getWords()
             }
 
-            binding.searchView.editText.addTextChangedListener { editable ->
-                viewModel.searchWords(editable.toString())
-            }
         }
         binding.rvWords.layoutManager = LinearLayoutManager(requireContext())
         binding.rvWords.adapter = adapter
