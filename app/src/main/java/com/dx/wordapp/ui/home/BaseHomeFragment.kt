@@ -36,11 +36,7 @@ class BaseHomeFragment : Fragment() {
         // Link SearchView with SearchBar
         searchView.setupWithSearchBar(searchBar)
 
-        // Listen for text changes
-//        searchView.editText.addTextChangedListener { text ->
-//            // filter your RecyclerView adapter here
-//            // example: adapter.filter(text.toString())
-//        }
+
     }
 
 

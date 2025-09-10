@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.dx.wordapp.ui.home.HomeFragment"
@@ -11,10 +12,18 @@
         tools:layout="@layout/fragment_base_home" >
         <action
             android:id="@+id/action_homeFragment_to_addWordFragment"
-            app:destination="@id/addWordFragment" />
+            app:destination="@id/addWordFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_homeFragment_to_detailWordFragment"
-            app:destination="@id/detailWordFragment" />
+            app:destination="@id/detailWordFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
 
     <fragment
@@ -24,10 +33,18 @@
         tools:layout="@layout/fragment_base_home" >
         <action
             android:id="@+id/action_completedFragment_to_detailWordFragment"
-            app:destination="@id/detailWordFragment" />
+            app:destination="@id/detailWordFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_completedFragment_to_addWordFragment"
-            app:destination="@id/addWordFragment" />
+            app:destination="@id/addWordFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
 
     <fragment
@@ -56,6 +73,10 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_detailWordFragment_to_editWordFragment"
-            app:destination="@id/editWordFragment" />
+            app:destination="@id/editWordFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
 </navigation>

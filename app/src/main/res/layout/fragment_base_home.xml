@@ -38,7 +38,9 @@
                 android:id="@+id/fabSort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/xxl"
+                android:paddingTop="@dimen/xxl"
+                android:paddingBottom="@dimen/l"
+                android:layout_margin="@dimen/m"
                 android:text="@string/sort_by"
                 app:icon="@drawable/ic_sort" />
 
