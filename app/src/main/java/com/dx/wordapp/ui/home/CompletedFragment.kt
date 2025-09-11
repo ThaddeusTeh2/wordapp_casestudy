@@ -40,14 +40,10 @@ class CompletedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initializeRecyclerView()
         setupNavigation()
         observeWords()
         observeSearchResults()
-
-        // Standard: Navigate to Add screen when FAB is clicked.
-        // Factory analogy: Create a new assembly when pressing the add control.
         binding.run {
             fabAdd.setOnClickListener {
                 val action = CompletedFragmentDirections.actionCompletedFragmentToAddWordFragment()
@@ -55,13 +51,9 @@ class CompletedFragment : Fragment() {
             }
             fabSort.setOnClickListener { showFilterDialogBox(id) }
         }
-
-        // Standard: Refresh list when add/edit finishes in child fragments.
-        // Factory analogy: Update conveyor when another station finishes processing.
         setFragmentResultListener("manage_word"){_,_ ->
             viewModel.getWords()
         }
-
         binding.searchView.editText.addTextChangedListener { editable ->
             viewModel.searchWords(editable.toString())
         }
@@ -121,11 +113,13 @@ class CompletedFragment : Fragment() {
             setFragmentResultListener("manage_word"){_,_ ->
                 viewModel.getWords()
             }
-
         }
+        runBinding()
+    }
+
+    fun runBinding(){
         binding.rvWords.layoutManager = LinearLayoutManager(requireContext())
         binding.rvWords.adapter = adapter
-
         binding.rvWordsSearch.layoutManager = LinearLayoutManager(requireContext())
         searchAdapter = WordsAdapter(emptyList()) {
             val action = CompletedFragmentDirections.actionCompletedFragmentToDetailWordFragment(it.id!!)
@@ -170,5 +164,4 @@ class CompletedFragment : Fragment() {
             }
         }
     }
-
 }

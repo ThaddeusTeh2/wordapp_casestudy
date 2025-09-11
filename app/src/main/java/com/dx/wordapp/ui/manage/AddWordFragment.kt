@@ -36,6 +36,12 @@ class AddWordFragment : BaseManageWordFragment() {
             // Standard: Indicate this is add mode.
             // Factory analogy: Machine set to creation mode.
             toolbarTitle.text = getString(R.string.manage_word_title, "Add New")
+            runMbSubmit()
+        }
+    }
+
+    fun runMbSubmit(){
+        binding.run {
             mbSubmit.text = getString(R.string.add)
             mbSubmit.setOnClickListener {
                 val title = etTitle.text.toString()

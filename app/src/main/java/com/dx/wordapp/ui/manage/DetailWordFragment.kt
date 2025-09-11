@@ -16,6 +16,7 @@ import com.dx.wordapp.data.repo.WordsRepo
 import com.dx.wordapp.databinding.FragmentDetailWordBinding
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.setFragmentResult
+import com.dx.wordapp.data.model.Word
 import com.dx.wordapp.databinding.DialogConfirmationBinding
 import com.google.android.material.chip.Chip
 
@@ -46,14 +47,8 @@ class DetailWordFragment: Fragment() {
         binding.run {
             tvTitle.setText(word.title)
             tvDefinition.setText(word.definition)
-//            tvSynonym.setText(word.synonym)
             tvDetails.setText(word.details)
-            btnDone.icon = if (!word.isCompleted) {
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_done)
-            } else {
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_undone)
-            }
-            btnDone.setOnClickListener{ changeWordCompleted()}
+            runBtnDoneBinding(word)
             btnEdit.setOnClickListener {
                 val action = DetailWordFragmentDirections
                     .actionDetailWordFragmentToEditWordFragment(args.wordId)
@@ -61,6 +56,17 @@ class DetailWordFragment: Fragment() {
             }
             btnDelete.setOnClickListener { showDeleteDialogBox(args.wordId) }
             btnBack.setOnClickListener { findNavController().popBackStack() }
+        }
+    }
+
+    fun runBtnDoneBinding(word:Word){
+        binding.run {
+            btnDone.icon = if (!word.isCompleted) {
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_done)
+            } else {
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_undone)
+            }
+            btnDone.setOnClickListener{ changeWordCompleted()}
         }
     }
 
@@ -86,12 +92,9 @@ class DetailWordFragment: Fragment() {
         val word = repo.getWord(args.wordId) ?: throw Exception("Word is Null")
         if (!word.isCompleted){
             repo.updateWord(word.copy(isCompleted = true))
-//            binding.btnDone.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_undone)
         }else{
             repo.updateWord(word.copy(isCompleted = false))
-//            binding.btnDone.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_done)
         }
-
         // Notify both lists
         setFragmentResult("manage_word", Bundle()) // Home
         setFragmentResult("manage_completed_word", Bundle()) // Completed
@@ -107,18 +110,15 @@ class DetailWordFragment: Fragment() {
             .inflate(layoutInflater, null, false)
         dialog.setContentView(dialogBinding.root)
         dialogBinding.root.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
-
         dialogBinding.btnCancel.setOnClickListener {
             dialog.dismiss()
         }
-
         dialogBinding.btnConfirm.setOnClickListener {
             repo.deleteWord(wordId)
             dialog.dismiss()
             setFragmentResult("manage_word",Bundle())
             findNavController().popBackStack()
         }
-
         dialog.show()
     }
 }
