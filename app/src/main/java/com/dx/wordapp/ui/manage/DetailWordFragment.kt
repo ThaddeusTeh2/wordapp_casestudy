@@ -2,7 +2,6 @@ package com.dx.wordapp.ui.manage
 
 import android.app.Dialog
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -37,11 +36,11 @@ class DetailWordFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        runBinding()
+        updateUI()
     }
 
     // Binding Block
-    private fun runBinding(){
+    private fun updateUI(){
         val word = repo.getWord(args.wordId) ?: throw Exception("Word is Null")
         syn()
         binding.run {
