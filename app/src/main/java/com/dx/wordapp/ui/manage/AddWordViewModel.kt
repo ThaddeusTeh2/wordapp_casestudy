@@ -34,15 +34,8 @@ class AddWordViewModel(
         try {
             require(title.isNotBlank()) { "Title cannot be blank" }
             require(definition.isNotBlank()) { "Definition cannot be blank" }
-            
-            val word = Word(
-                title = title, 
-                definition = definition, 
-                synonym = synonym, 
-                details = details
-            )
-            repo.addWord(word)
-            
+            repoAdd(title,definition,synonym,details)
+
             viewModelScope.launch { 
                 _finish.emit(Unit)
             }
@@ -51,5 +44,15 @@ class AddWordViewModel(
                 _error.emit(e.message.toString()) 
             }
         }
+    }
+
+    private fun repoAdd(title:String, definition: String, synonym: String, details: String){
+        val word = Word(
+            title = title,
+            definition = definition,
+            synonym = synonym,
+            details = details
+        )
+        repo.addWord(word)
     }
 }

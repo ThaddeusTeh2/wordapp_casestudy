@@ -6,7 +6,7 @@
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +28,7 @@
         android:id="@+id/button_container"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/tx_s"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -38,7 +38,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDone"
             style="@style/Widget.Material3.Button"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="@dimen/tx_xxs"
@@ -48,7 +48,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEdit"
             style="@style/Widget.Material3.Button"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="@dimen/tx_xxs"
@@ -58,7 +58,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDelete"
             style="@style/Widget.Material3.Button"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:icon="@drawable/ic_delete"
@@ -67,8 +67,8 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/zero"
+        android:layout_height="@dimen/zero"
         app:layout_constraintTop_toBottomOf="@id/button_container"
         app:layout_constraintBottom_toTopOf="@id/btnBack"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:singleLine="false"
-                app:chipSpacing="8dp" />
+                app:chipSpacing="@dimen/xs" />
 
 
             <TextView android:id="@+id/tvDetailsHeader"
@@ -151,7 +151,7 @@
     <!-- Fixed back button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBack"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
         android:text="@string/back"
         android:layout_margin="@dimen/xxl"

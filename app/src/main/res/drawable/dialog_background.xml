@@ -11,6 +11,6 @@
     <!-- Optional: Add a subtle shadow effect -->
     <stroke
         android:width="@dimen/xxxs"
-        android:color="#20000000" />
+        android:color="@color/dialog_background" />
         
 </shape>
