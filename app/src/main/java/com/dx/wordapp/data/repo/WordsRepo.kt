@@ -1,44 +1,40 @@
 package com.dx.wordapp.data.repo
 
+import com.dx.wordapp.data.db.WordsDao
 import com.dx.wordapp.data.model.Word
+import kotlinx.coroutines.flow.Flow
 
 // Main class to get getAll add edit delete Words (imitate database)
 
-class WordsRepo private constructor() {
-    val items : MutableMap<Int,Word> = mutableMapOf()
-    var counter = 0
+class WordsRepo (
+    private val dao: WordsDao
+) {
+
+    fun getAllWords(): Flow<List<Word>> {
+        return dao.getAllWords()
+    }
+
+    fun getCompletedWords(): Flow<List<Word>> {
+        return dao.getCompletedWords()
+    }
+
+    fun getUnlearnedWords(): Flow<List<Word>> {
+        return dao.getUnlearnedWords()
+    }
 
     fun addWord(word: Word){
-        counter++
-        items[counter] = word.copy(id=counter)
+        dao.addWord(word)
     }
 
-    fun getWord(id:Int) = items[id]
+    fun getWord(id: Int): Word?{
+        return dao.getWord(id)
+    }
 
     fun updateWord(word: Word){
-        items[word.id!!] = word
+        dao.updateWord(word)
     }
 
-    fun getAllWords() = items.values.toList()
-
-    fun getCompletedWords() = items.values.filter { it.isCompleted }.toList()
-
-    fun getUnlearnedWords() = items.values.filter { !it.isCompleted }.toList()
-
-
-    fun deleteWord(id:Int){
-        items.remove(id)
+    fun deleteWord(id: Int){
+        dao.deleteWord(id)
     }
-
-    companion object{
-        private var instance: WordsRepo? = null
-
-        fun getInstance():WordsRepo{
-            if (instance == null){
-                instance = WordsRepo()
-            }
-            return instance!!
-        }
-    }
-
 }
