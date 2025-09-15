@@ -1,10 +1,17 @@
 package com.dx.wordapp.ui.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.dx.wordapp.MyApp
 import com.dx.wordapp.data.model.Word
 import com.dx.wordapp.data.repo.WordsRepo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 /**
  * Standard: ViewModel holding the current list of words and exposing them as a StateFlow.
@@ -13,7 +20,7 @@ import kotlinx.coroutines.flow.asStateFlow
  * Factory analogy: Logistics controller that tracks the items on the main belt.
  */
 class CompletedViewModel(
-    private val repo : WordsRepo = WordsRepo.getInstance()
+    private val repo : WordsRepo
 )  : ViewModel() {
 
     // Standard: Backing state for the UI to observe.
@@ -36,10 +43,15 @@ class CompletedViewModel(
      * Standard: Load all words from the repository.
      * Factory analogy: Request a fresh snapshot of items from storage.
      */
-    fun getWords(){
-        val completedWords = repo.getCompletedWords()
-        _words.value = completedWords
-        _searchResults.value = completedWords
+    fun getWords() {
+        viewModelScope.launch {
+            repo.getCompletedWords() // Flow<List<Word>>
+                .collect { completed ->
+                    val sorted = applySorting(completed)
+                    _words.value = sorted
+                    _searchResults.value = sorted
+                }
+        }
     }
 
     // Takes in two fields and pass it down to [applySorting()]
@@ -59,10 +71,15 @@ class CompletedViewModel(
         }
     }
 
-    // To check what type is passed and sort accordingly
+    // applying the sorted words into the state
     private fun applySortingCompleted() {
-        val list = repo.getCompletedWords()
-        val sorted = when (sortType) {
+        val sorted = applySorting(_words.value)
+        _words.value = sorted
+    }
+
+    // sorting function
+    private fun applySorting(list: List<Word>): List<Word> {
+        return when (sortType) {
             SortType.TITLE ->
                 if (sortOrder == SortOrder.ASCENDING) list.sortedBy { it.title }
                 else list.sortedByDescending { it.title }
@@ -71,11 +88,22 @@ class CompletedViewModel(
                 if (sortOrder == SortOrder.ASCENDING) list.sortedBy { it.date }
                 else list.sortedByDescending { it.date }
         }
-        _words.value = sorted
     }
 
     // types and orders enum for easier changing
     enum class SortType{ TITLE,DATE }
     enum class SortOrder{ ASCENDING,DESCENDING }
 
+    // Define ViewModel factory in a companion object
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                // Get the dependency in your factory
+                val myRepository = (this[APPLICATION_KEY] as MyApp).repo
+                CompletedViewModel(
+                    repo = myRepository,
+                )
+            }
+        }
+    }
 }

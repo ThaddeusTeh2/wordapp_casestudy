@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,7 +17,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.dx.wordapp.R
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dx.wordapp.databinding.DialogConfirmationBinding
 import com.dx.wordapp.databinding.DialogFilterBinding
 import com.dx.wordapp.databinding.FragmentBaseHomeBinding
 import com.dx.wordapp.ui.adapter.WordsAdapter
@@ -31,7 +29,9 @@ import kotlinx.coroutines.launch
  * Factory analogy: Main production floor managing the conveyor (list) and control panels.
  */
 class HomeFragment : Fragment() {
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels{
+        HomeViewModel.Factory
+    }
     private lateinit var binding: FragmentBaseHomeBinding
     private lateinit var adapter: WordsAdapter
 
@@ -145,9 +145,6 @@ class HomeFragment : Fragment() {
         viewModel.getWords()
     }
 
-    // Standard: TODO integrate sort/filter dialog with ViewModel (title/date, asc/desc).
-    // Factory analogy: Configure splitter priorities on the belt.
-
     // Show sort dialog box
     private fun showFilterDialogBox(wordId: Int) {
         val dialog = Dialog(requireContext())
@@ -178,9 +175,4 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-    // Standard: TODO integrate search with ViewModel (query string -> filtered list).
-    // Factory analogy: Install a filter station on the belt.
-
-
 }

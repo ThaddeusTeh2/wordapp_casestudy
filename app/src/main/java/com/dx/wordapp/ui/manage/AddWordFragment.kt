@@ -14,7 +14,9 @@ import kotlinx.coroutines.launch
  * Factory analogy: Assembly station that creates new items from raw materials.
  */
 class AddWordFragment : BaseManageWordFragment() {
-    private val viewModel: AddWordViewModel by viewModels()
+    private val viewModel: AddWordViewModel by viewModels{
+        AddWordViewModel.Factory
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

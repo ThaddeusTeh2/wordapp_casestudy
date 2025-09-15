@@ -1,9 +1,15 @@
 package com.dx.wordapp.ui.manage
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.dx.wordapp.MyApp
 import com.dx.wordapp.data.model.Word
 import com.dx.wordapp.data.repo.WordsRepo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -13,7 +19,7 @@ import kotlinx.coroutines.launch
  * Factory analogy: Controller for an assembly station creating new items.
  */
 class AddWordViewModel(
-    private val repo: WordsRepo = WordsRepo.getInstance()
+    private val repo: WordsRepo
 ) : ViewModel() {
     
     // Standard: Emits when word creation completes successfully.
@@ -34,10 +40,10 @@ class AddWordViewModel(
         try {
             require(title.isNotBlank()) { "Title cannot be blank" }
             require(definition.isNotBlank()) { "Definition cannot be blank" }
-            repoAdd(title,definition,synonym,details)
 
-            viewModelScope.launch { 
-                _finish.emit(Unit)
+            viewModelScope.launch (Dispatchers.IO) {
+                repoAdd(title,definition,synonym,details)
+                    _finish.emit(Unit)
             }
         } catch (e: Exception) {
             viewModelScope.launch { 
@@ -54,5 +60,16 @@ class AddWordViewModel(
             details = details
         )
         repo.addWord(word)
+    }
+
+    // Define ViewModel factory in a companion object
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                // Get the dependency in your factory
+                val myRepository = (this[APPLICATION_KEY] as MyApp).repo
+                AddWordViewModel(repo = myRepository)
+            }
+        }
     }
 }

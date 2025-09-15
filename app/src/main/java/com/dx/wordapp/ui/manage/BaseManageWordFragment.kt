@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.setFragmentResult
-import androidx.navigation.fragment.findNavController
 import com.dx.wordapp.R
-import com.dx.wordapp.data.repo.WordsRepo
 import com.dx.wordapp.databinding.FragmentBaseManageWordBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -22,7 +19,6 @@ import com.google.android.material.snackbar.Snackbar
 open class BaseManageWordFragment : Fragment() {
     // Standard: Shared repository instance.
     // Factory analogy: Shared logistics network access.
-    protected val repo = WordsRepo.getInstance()
     protected lateinit var binding: FragmentBaseManageWordBinding
 
     override fun onCreateView(
@@ -44,10 +40,4 @@ open class BaseManageWordFragment : Fragment() {
         snackbar.setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.red))
         snackbar.show()
     }
-
-    // Standard: TODO add input validation helpers (non-empty fields, length checks).
-    // Factory analogy: Verify required ingredients before starting the recipe.
-
-    // Standard: TODO add configuration helpers for add/edit modes if needed.
-    // Factory analogy: Switch the machine recipe between add vs upgrade.
 }

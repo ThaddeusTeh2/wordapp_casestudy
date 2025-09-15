@@ -23,7 +23,9 @@ import com.dx.wordapp.ui.adapter.WordsAdapter
 import kotlinx.coroutines.launch
 
 class CompletedFragment : Fragment() {
-    private val viewModel: CompletedViewModel by viewModels()
+    private val viewModel: CompletedViewModel by viewModels{
+        CompletedViewModel.Factory
+    }
     private lateinit var binding: FragmentBaseHomeBinding
     private lateinit var adapter: WordsAdapter
 
