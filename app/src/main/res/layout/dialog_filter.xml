@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/xl"
+    android:background="@drawable/dialog_background"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/xl">
+
+    <!-- Dialog Title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filter"
+        android:textSize="@dimen/tx_xl"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/xxl" />
+
+    <!-- Sort By Section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sort_by"
+        android:textSize="@dimen/tx_l"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/s" />
+
+    <!-- Sort By Radio Group -->
+    <RadioGroup
+        android:id="@+id/rgSortBy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/xxl">
+
+        <RadioButton
+            android:id="@+id/rbSortByDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_date"
+            android:checked="true"
+            android:layout_marginBottom="@dimen/xs" />
+
+        <RadioButton
+            android:id="@+id/rbSortByTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by_title"
+            android:layout_marginBottom="@dimen/xs" />
+
+    </RadioGroup>
+
+    <!-- Order Section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/order"
+        android:textSize="@dimen/tx_l"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/s" />
+
+    <!-- Order Radio Group -->
+    <RadioGroup
+        android:id="@+id/rgOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/xxl">
+
+        <RadioButton
+            android:id="@+id/rbAscending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ascending"
+            android:checked="true"
+            android:layout_marginBottom="@dimen/xs" />
+
+        <RadioButton
+            android:id="@+id/rbDescending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/descending"
+            android:layout_marginBottom="@dimen/xs" />
+
+    </RadioGroup>
+
+    <!-- Button Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <!-- Cancel Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_marginEnd="@dimen/s"
+            style="@style/Widget.Material3.Button.TextButton" />
+
+        <!-- Apply Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnApply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/apply"
+            style="@style/Widget.Material3.Button" />
+
+    </LinearLayout>
+
+</LinearLayout>

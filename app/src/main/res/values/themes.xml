@@ -1,9 +1,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Wordapp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.Wordapp" parent="Theme.Material3.DayNight.NoActionBar">
+                <!-- Primary brand color -->
+        <item name="colorPrimary">@color/deep_ocean</item>
+        <item name="colorOnPrimary">@color/beige</item>
+                <!-- Secondary brand color -->
+
+        <item name="colorSecondary">@color/beige</item>
+        <item name="colorOnSecondary">@color/deep_ocean</item>
+                <!-- Tertiary brand color -->
+
+        <item name="colorTertiary">@color/beige</item>
+        <item name="colorOnTertiary">@color/deep_ocean</item>
+                <!-- Background & Surface -->
+
+        <item name="android:colorBackground">@color/beige</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/deep_ocean</item>
+                <!-- Error colors -->
+
+        <item name="colorError">@color/red</item>
+        <item name="colorOnError">@color/white</item>
     </style>
 
-    <style name="Theme.Wordapp" parent="Base.Theme.Wordapp" />
 </resources>
+
+<!--test-->

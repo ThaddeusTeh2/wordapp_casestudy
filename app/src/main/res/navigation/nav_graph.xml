@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.dx.wordapp.ui.home.HomeFragment"
+        android:label="@string/unlearned_words"
+        tools:layout="@layout/fragment_base_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_addWordFragment"
+            app:destination="@id/addWordFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_homeFragment_to_detailWordFragment"
+            app:destination="@id/detailWordFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/completedFragment"
+        android:name="com.dx.wordapp.ui.home.CompletedFragment"
+        android:label="@string/completed_words"
+        tools:layout="@layout/fragment_base_home" >
+        <action
+            android:id="@+id/action_completedFragment_to_detailWordFragment"
+            app:destination="@id/detailWordFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_completedFragment_to_addWordFragment"
+            app:destination="@id/addWordFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/addWordFragment"
+        android:name="com.dx.wordapp.ui.manage.AddWordFragment"
+        android:label="Add Word"
+        tools:layout="@layout/fragment_base_manage_word" />
+
+    <fragment
+        android:id="@+id/editWordFragment"
+        android:name="com.dx.wordapp.ui.manage.EditWordFragment"
+        android:label="Edit Word"
+        tools:layout="@layout/fragment_base_manage_word">
+        <argument
+            android:name="wordId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailWordFragment"
+        android:name="com.dx.wordapp.ui.manage.DetailWordFragment"
+        android:label="DetailWordFragment"
+        tools:layout="@layout/fragment_detail_word">
+        <argument
+            android:name="wordId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_detailWordFragment_to_editWordFragment"
+            app:destination="@id/editWordFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+    </fragment>
+</navigation>
