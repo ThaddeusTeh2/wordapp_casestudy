@@ -1,11 +1,17 @@
 package com.dx.wordapp.ui.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.dx.wordapp.MyApp
 import com.dx.wordapp.data.model.Word
 import com.dx.wordapp.data.repo.WordsRepo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 /**
  * Standard: ViewModel holding the current list of words and exposing them as a StateFlow.
@@ -14,7 +20,7 @@ import kotlinx.coroutines.flow.update
  * Factory analogy: Logistics controller that tracks the items on the main belt.
  */
 class HomeViewModel(
-    private val repo : WordsRepo = WordsRepo.getInstance()
+    private val repo : WordsRepo
 )  : ViewModel() {
 
     // Standard: Backing state for the UI to observe.
@@ -38,9 +44,14 @@ class HomeViewModel(
      * Factory analogy: Request a fresh snapshot of items from storage.
      */
     fun getWords(){
-        val unlearnedWords = repo.getUnlearnedWords()
-        _words.value = unlearnedWords
-        _searchResults.value = unlearnedWords
+        viewModelScope.launch {
+            repo.getUnlearnedWords() // Flow<List<Word>>
+                .collect { unlearned ->
+                    val sorted = applySorting(unlearned)
+                    _words.value = sorted
+                    _searchResults.value = sorted
+                }
+        }
 
     }
 
@@ -48,7 +59,7 @@ class HomeViewModel(
     fun setSort(type: SortType,order: SortOrder){
         sortType = type
         sortOrder = order
-        applySorting()
+        applySortingUnlearned()
     }
 
     fun searchWords(query: String) {
@@ -62,18 +73,22 @@ class HomeViewModel(
     }
 
     // To check what type is passed and sort accordingly
-    private fun applySorting() {
-        val list = repo.getUnlearnedWords()
-        val sorted = when (sortType) {
-            SortType.TITLE ->
-                if (sortOrder == SortOrder.ASCENDING) list.sortedBy { it.title }
+    private fun applySortingUnlearned() {
+        val sorted = applySorting(_words.value)
+        _words.value = sorted
+    }
+
+    // sorting function
+    private fun applySorting(list: List<Word>): List<Word> {
+        return when (sortType) {
+            com.dx.wordapp.ui.home.HomeViewModel.SortType.TITLE ->
+                if (sortOrder == com.dx.wordapp.ui.home.HomeViewModel.SortOrder.ASCENDING) list.sortedBy { it.title }
                 else list.sortedByDescending { it.title }
 
-            SortType.DATE ->
-                if (sortOrder == SortOrder.ASCENDING) list.sortedBy { it.date }
+            com.dx.wordapp.ui.home.HomeViewModel.SortType.DATE ->
+                if (sortOrder == com.dx.wordapp.ui.home.HomeViewModel.SortOrder.ASCENDING) list.sortedBy { it.date }
                 else list.sortedByDescending { it.date }
         }
-        _words.value = sorted
     }
 
 
@@ -81,4 +96,16 @@ class HomeViewModel(
     enum class SortType{ TITLE,DATE }
     enum class SortOrder{ ASCENDING,DESCENDING }
 
+    // Define ViewModel factory in a companion object
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                // Get the dependency in your factory
+                val myRepository = (this[APPLICATION_KEY] as MyApp).repo
+                HomeViewModel(
+                    repo = myRepository,
+                )
+            }
+        }
+    }
 }

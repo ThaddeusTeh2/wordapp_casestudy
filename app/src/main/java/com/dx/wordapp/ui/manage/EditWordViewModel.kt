@@ -1,9 +1,15 @@
 package com.dx.wordapp.ui.manage
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.dx.wordapp.MyApp
 import com.dx.wordapp.data.model.Word
 import com.dx.wordapp.data.repo.WordsRepo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -15,7 +21,7 @@ import kotlinx.coroutines.launch
  * Factory analogy: Controller for an upgrade station managing item modifications.
  */
 class EditWordViewModel(
-    private val repo: WordsRepo = WordsRepo.getInstance()
+    private val repo: WordsRepo
 ) : ViewModel() {
 
     // Standard: Holds the selected word to edit.
@@ -38,14 +44,15 @@ class EditWordViewModel(
      * Factory analogy: Request an item from storage to process.
      */
     fun loadWord(wordId: Int) {
-        val word = repo.getWord(wordId)
-        if (word != null) {
-            _word.value = word
-        } else {
-            viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.IO) {
+            val word = repo.getWord(wordId)
+            if (word != null) {
+                _word.value = word
+            } else {
                 _error.emit("Item not found in logistics network")
             }
         }
+
     }
 
     /**
@@ -109,7 +116,9 @@ class EditWordViewModel(
      * Factory analogy: Return finished goods to logistics.
      */
     private fun saveToRepository(updatedWord: Word) {
-        repo.updateWord(updatedWord)
+        viewModelScope.launch (Dispatchers.IO) {
+            repo.updateWord(updatedWord)
+        }
     }
 
     /**
@@ -117,7 +126,7 @@ class EditWordViewModel(
      * Factory analogy: Turn on the green completion light.
      */
     private fun notifySuccess() {
-        viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.IO) {
             _finish.emit(Unit)
         }
     }
@@ -137,6 +146,17 @@ class EditWordViewModel(
     private fun emitError(errorMessage: String) {
         viewModelScope.launch {
             _error.emit(errorMessage)
+        }
+    }
+
+    // Define ViewModel factory in a companion object
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                // Get the dependency in your factory
+                val myRepository = (this[APPLICATION_KEY] as MyApp).repo
+                EditWordViewModel(repo = myRepository)
+            }
         }
     }
 }

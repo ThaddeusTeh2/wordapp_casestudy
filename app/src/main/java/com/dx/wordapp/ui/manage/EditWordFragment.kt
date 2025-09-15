@@ -15,7 +15,9 @@ import kotlinx.coroutines.launch
  * Factory analogy: Upgrade station that modifies an existing item on the line.
  */
 class EditWordFragment : BaseManageWordFragment() {
-    private val viewModel: EditWordViewModel by viewModels()
+    private val viewModel: EditWordViewModel by viewModels{
+        EditWordViewModel.Factory
+    }
     private val args: EditWordFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

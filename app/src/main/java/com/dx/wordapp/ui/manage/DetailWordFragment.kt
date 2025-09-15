@@ -11,19 +11,29 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.dx.wordapp.R
-import com.dx.wordapp.data.repo.WordsRepo
 import com.dx.wordapp.databinding.FragmentDetailWordBinding
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.lifecycleScope
+import com.dx.wordapp.MyApp
 import com.dx.wordapp.data.model.Word
+import com.dx.wordapp.data.repo.WordsRepo
 import com.dx.wordapp.databinding.DialogConfirmationBinding
 import com.google.android.material.chip.Chip
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class DetailWordFragment: Fragment() {
-    protected val repo = WordsRepo.getInstance()
+    private lateinit var repo: WordsRepo
     private lateinit var binding : FragmentDetailWordBinding
     private val args : DetailWordFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Get your repo from MyApp
+        repo = (requireActivity().application as MyApp).repo
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,36 +51,45 @@ class DetailWordFragment: Fragment() {
 
     // Binding Block
     private fun updateUI(){
-        val word = repo.getWord(args.wordId) ?: throw Exception("Word is Null")
-        syn()
-        binding.run {
-            tvTitle.setText(word.title)
-            tvDefinition.setText(word.definition)
-            tvDetails.setText(word.details)
-            runBtnDoneBinding(word)
-            btnEdit.setOnClickListener {
-                val action = DetailWordFragmentDirections
-                    .actionDetailWordFragmentToEditWordFragment(args.wordId)
-                findNavController().navigate(action)
+        lifecycleScope.launch (Dispatchers.IO) {
+            val word = repo.getWord(args.wordId) ?: throw Exception("Word is Null")
+            launch(Dispatchers.Main) {
+                syn(word)
+                binding.run {
+                    tvTitle.setText(word.title)
+                    tvDefinition.setText(word.definition)
+                    tvDetails.setText(word.details)
+                    runButtonsBinding(word)
+
+                }
             }
-            btnDelete.setOnClickListener { showDeleteDialogBox(args.wordId) }
-            btnBack.setOnClickListener { findNavController().popBackStack() }
         }
     }
 
-    fun runBtnDoneBinding(word:Word){
+    fun runButtonsBinding(word:Word){
         binding.run {
+            // DONE
             btnDone.icon = if (!word.isCompleted) {
                 ContextCompat.getDrawable(requireContext(), R.drawable.ic_done)
             } else {
                 ContextCompat.getDrawable(requireContext(), R.drawable.ic_undone)
             }
-            btnDone.setOnClickListener{ changeWordCompleted()}
+            btnDone.setOnClickListener{ changeWordCompleted(word)}
+            // EDIT
+            btnEdit.setOnClickListener {
+                val action = DetailWordFragmentDirections
+                    .actionDetailWordFragmentToEditWordFragment(args.wordId)
+                findNavController().navigate(action)
+            }
+            // DELETE
+            btnDelete.setOnClickListener { showDeleteDialogBox(args.wordId) }
+            // BACK
+            btnBack.setOnClickListener { findNavController().popBackStack() }
         }
     }
 
-    fun syn() {
-        val word = repo.getWord(args.wordId) ?: return
+    fun syn(word:Word) {
+//        val word = repo.getWord(args.wordId) ?: return
         binding.chipGroup.removeAllViews() // clear old chips
 
         word.synonym.split(",").map { it.trim() }.forEach { synonym ->
@@ -87,18 +106,20 @@ class DetailWordFragment: Fragment() {
 
 
     // Update isCompleted to true
-    fun changeWordCompleted(){
-        val word = repo.getWord(args.wordId) ?: throw Exception("Word is Null")
-        if (!word.isCompleted){
-            repo.updateWord(word.copy(isCompleted = true))
-        }else{
-            repo.updateWord(word.copy(isCompleted = false))
+    fun changeWordCompleted(word: Word){
+        lifecycleScope.launch (Dispatchers.IO) {
+            if (!word.isCompleted){
+                repo.updateWord(word.copy(isCompleted = true))
+            }else{
+                repo.updateWord(word.copy(isCompleted = false))
+            }
+            // Notify both lists
+            launch (Dispatchers.Main){
+                setFragmentResult("manage_word", Bundle()) // Home
+                setFragmentResult("manage_completed_word", Bundle()) // Completed
+                findNavController().popBackStack()
+            }
         }
-        // Notify both lists
-        setFragmentResult("manage_word", Bundle()) // Home
-        setFragmentResult("manage_completed_word", Bundle()) // Completed
-
-        findNavController().popBackStack()
     }
 
 
@@ -113,10 +134,14 @@ class DetailWordFragment: Fragment() {
             dialog.dismiss()
         }
         dialogBinding.btnConfirm.setOnClickListener {
-            repo.deleteWord(wordId)
-            dialog.dismiss()
-            setFragmentResult("manage_word",Bundle())
-            findNavController().popBackStack()
+            lifecycleScope.launch (Dispatchers.IO) {
+                repo.deleteWord(wordId)
+                launch (Dispatchers.Main){
+                    dialog.dismiss()
+                    setFragmentResult("manage_word",Bundle())
+                    findNavController().popBackStack()
+                }
+            }
         }
         dialog.show()
     }
