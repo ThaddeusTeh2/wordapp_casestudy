@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0000</color>
+
+    <color name="cream">#EEE8DF</color>
+    <color name="beige">#C4BCB0</color>
+    <color name="deep_ocean">#2C365A</color>
+    <color name="dialog_background">#20000000</color>
 </resources>

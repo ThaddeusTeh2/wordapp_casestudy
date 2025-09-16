@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.manage.BaseManageWordFragment">
+
+    <!--  ToolBar (Header)  -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar"
+        android:background="?attr/colorPrimary"
+        app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="?attr/colorOnPrimary">
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|start"
+            android:text="@string/manage_word_title"
+            android:textSize="@dimen/tx_xxxl"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnPrimary"/>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <!--  Edit Text ll block  -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero"
+        android:layout_weight="1"
+        android:padding="@dimen/xl"
+        android:orientation="vertical">
+
+        <!--    Title    -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title"
+            android:textSize="@dimen/tx_xl"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/s"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/enter_word_title"
+            android:padding="@dimen/xs"
+            android:inputType="textMultiLine"
+            android:maxLines="2"
+            android:scrollbars="vertical"/>
+
+        <!--    Meaning    -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/meaning"
+            android:textSize="@dimen/tx_xl"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/xxxl"/>
+
+        <EditText
+            android:id="@+id/etDefinition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/s"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/enter_word_meaning"
+            android:padding="@dimen/xs"
+            android:inputType="textMultiLine"
+            android:maxLines="2"
+            android:scrollbars="vertical"/>
+
+
+        <!--    Synonyms    -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/synonyms"
+            android:textSize="@dimen/tx_xl"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/xxxl"/>
+
+        <EditText
+            android:id="@+id/etSynonym"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/s"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/enter_word_synonyms"
+            android:padding="@dimen/xs"
+            android:inputType="textMultiLine"
+            android:maxLines="2"
+            android:scrollbars="vertical"/>
+
+        <!--    Details    -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/details"
+            android:textSize="@dimen/tx_xl"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/xxxl"/>
+
+        <EditText
+            android:id="@+id/etDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/s"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/enter_word_details"
+            android:padding="@dimen/xs"
+            android:inputType="textMultiLine"
+            android:gravity="start"
+            android:minLines="5"
+            android:maxLines="12"
+            android:scrollbars="vertical"/>
+    </LinearLayout>
+
+    <!--  Submit button  -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/mbSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/xl"
+        android:paddingTop="@dimen/xl"
+        android:paddingBottom="@dimen/xl"
+        android:text=""
+        app:cornerRadius="@dimen/s"/>
+
+</LinearLayout>
